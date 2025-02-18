@@ -1,0 +1,22 @@
+/* Sign.css */
+.ant-input,
+.ant-input-password,
+.ant-select-selector,
+.ant-cascader-picker .ant-input,
+.ant-cascader-picker .ant-select-selector {
+  border-color: brown !important;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-password:hover,
+.ant-input-password:focus,
+.ant-select-selector:hover,
+.ant-select-selector:focus,
+.ant-cascader-picker .ant-input:hover,
+.ant-cascader-picker .ant-input:focus,
+.ant-cascader-picker .ant-select-selector:hover,
+.ant-cascader-picker .ant-select-selector:focus {
+  border-color: brown !important;
+  box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important; /* Optional for focus effect */
+}
