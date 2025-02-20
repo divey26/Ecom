@@ -10,6 +10,7 @@ import sell from "../../Images/sell.png";
 import trolly from "../../Images/trolly.png";
 import warrenty from "../../Images/warrenty.png";
 import returned from "../../Images/14.png";
+import RatedPro from "../Home/Layouts/RatedPro"
 
 
 const { Title, Text } = Typography;
@@ -234,6 +235,8 @@ const SingleProduct = () => {
           </Col>
         </Row>
       </div>
+      <RatedPro/>
+
     </LayoutNew>
   );
 };

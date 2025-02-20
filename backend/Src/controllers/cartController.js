@@ -1,5 +1,6 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/productModel');
+const mongoose = require('mongoose');
 
 // Add item to cart
 // Add item to cart
@@ -87,12 +88,19 @@ exports.updateItemQuantity = async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
 
+    // Convert userId to ObjectId if it is not already
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid userId format' });
+    }
+    const productIdValue = productId._id || productId;
     const cart = await Cart.findOne({ userId });
+    // const cart = await Cart.findOne({ userId });
+
     if (!cart) {
       return res.status(404).json({ message: 'Cart not found' });
     }
 
-    const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productId);
+    const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productIdValue);
     if (itemIndex === -1) {
       return res.status(404).json({ message: 'Item not found in cart' });
     }
@@ -118,13 +126,18 @@ exports.removeItemFromCart = async (req, res) => {
   try {
     const { userId, productId } = req.body;
 
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid userId format' });
+    }
+    const productIdValue = productId._id || productId;
+
     const cart = await Cart.findOne({ userId });
     if (!cart) {
       return res.status(404).json({ message: 'Cart not found' });
     }
 
     // Remove the item from the cart
-    cart.items = cart.items.filter((item) => item.productId.toString() !== productId);
+    cart.items = cart.items.filter((item) => item.productId.toString() !== productIdValue);
 
     await cart.save();
     res.status(200).json({ message: 'Item removed from cart', cart });

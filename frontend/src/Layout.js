@@ -68,7 +68,7 @@ const App = ({ children, userType }) => {
             top: 0,
             left: 0,
             width: "100%",
-            height: "80px",
+            height: "60px",
             backgroundColor: "#004f9a",
             display: "flex",
             alignItems: "center",
@@ -84,13 +84,13 @@ const App = ({ children, userType }) => {
               <img
                 src={imageSrc}
                 alt="Logo"
-                style={{ marginLeft: "10px", width: "50px", height: "50px" }}
+                style={{ marginLeft: "10px", width: "45px", height: "45px" }}
               />
               <span
                 style={{
                   fontSize: "24px",
                   fontWeight: "bold",
-                  marginLeft: "15px",
+                  marginLeft: "8px",
                   color: "#F3C623",
                 }}
               >
@@ -105,11 +105,11 @@ const App = ({ children, userType }) => {
               display: "flex",
               alignItems: "center",
               color: "white",
-              fontSize: "15px",
-              marginLeft: "150px", // Adjusted margin to make room for the search bar
+              fontSize: "13px",
+              marginLeft: "80px", // Adjusted margin to make room for the search bar
             }}
           >
-            <EnvironmentOutlined style={{ color: "#F3C623", fontSize: "30px" }} />
+            <EnvironmentOutlined style={{ color: "#F3C623", fontSize: "25px", marginRight:"5px" }} />
             Delivery to SRILANKA
           </div>
 
@@ -134,10 +134,9 @@ const App = ({ children, userType }) => {
               style={{
                 border: "none",
                 borderRadius: "30px",
-                width: "100%",
+                width: "90%",
                 fontSize: "16px",
-                height: "45px",
-                paddingLeft: "20px",
+                height: "40px",
               }}
             />
             <Button
@@ -149,8 +148,8 @@ const App = ({ children, userType }) => {
                 marginLeft: "-40px",
                 backgroundColor: "#ffc221",
                 border: "none",
-                width: "35px",
-                height: "35px",
+                width: "30px",
+                height: "30px",
               }}
             />
           </div>
@@ -204,17 +203,12 @@ const App = ({ children, userType }) => {
           </div>
 
           {/* Cart Icon on the right */}
-          <div style={{ textAlign: "right" }}>
-            <Button
-              type="default"
-              onClick={handleNavigateToCart}
-              style={{ marginTop: "10px", height: "60px", marginRight: "5px" }}
-            >
-              <Badge count={cart.length}>
-                <ShoppingCartOutlined style={{ fontSize: "30px" }} />
-              </Badge>
-            </Button>
+          <div style={{ textAlign: "right", marginTop: "10px", marginRight: "5px", cursor: "pointer" }} onClick={handleNavigateToCart}>
+            <Badge count={cart.length}>
+              <ShoppingCartOutlined style={{ fontSize: "34px",marginRight:"10px", marginLeft:"10px" ,color:" white"}} />
+            </Badge>
           </div>
+
         </Header>
 
         <Content style={{ marginTop: 64, padding: 24 }}>
