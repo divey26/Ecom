@@ -11,7 +11,7 @@ const { Title, Text } = Typography;
 
 const ProductsList = () => {
   const { categoryId } = useParams(); // Get categoryId from URL
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);//use state
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
