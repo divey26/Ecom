@@ -12,7 +12,7 @@ const { Title, Text } = Typography;
 const ProductsList = () => {
   const { categoryId } = useParams(); // Get categoryId from URL
   const [products, setProducts] = useState([]);//use state
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);//usestate
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const { addToCart } = useCart(); // Access addToCart function
