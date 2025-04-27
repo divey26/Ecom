@@ -131,7 +131,7 @@ const handleSubmit = async () => {
     <Layout>
     <Space
             style={{
-              background: "rgb(224, 245, 249)",
+              background: "#004f9a",
               color: "black",
               padding: "12px",
               borderRadius: "8px",
@@ -144,7 +144,7 @@ const handleSubmit = async () => {
               <StockOutlined style={{ fontSize: "24px", marginRight: "8px" }} />
               <Title
                 level={2}
-                style={{ fontSize: "24px", marginTop: "8px", color: "#004f9a" }}
+                style={{ fontSize: "24px", marginTop: "8px", color: "white" }}
               >
                 Shorts
               </Title>

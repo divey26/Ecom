@@ -5,9 +5,8 @@ import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement, useStri
 import { useCart } from '../cart/CartContext';
 import LayoutNew from '../../Layout';
 import imageSrc from '../../Images/logo.png';
-import StripImageSrc from '../../Images/StripeLogo.jpeg';
+//import StripImageSrc from '../../Images/StripeLogo.jpeg';
 import { useNavigate } from 'react-router-dom';
-
 
 const stripePromise = loadStripe('pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL');
 
@@ -16,12 +15,22 @@ const CheckoutForm = () => {
   const [clientSecret, setClientSecret] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
+  const [loading, setLoading] = useState(false); // Track the loading state
   const stripe = useStripe();
   const elements = useElements();
   const { reloadCart } = useCart();
   const navigate = useNavigate();
-  
 
+
+  useEffect(() => {
+    for (const item of cart) {
+      if (item.currentStocks < item.quantity) {
+        setPaymentStatus(`Error: ${item.itemName} is out of stock.`);
+        return;
+      }
+    }
+  }, [cart]);
+  
   useEffect(() => {
     const totalAmount = cart.reduce((total, item) => total + item.price * 100, 0);
 
@@ -38,49 +47,110 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!stripe || !elements || !clientSecret) {
-      return;
+  
+    if (!stripe || !elements || !clientSecret || loading) {
+      return; // Exit if the process is already ongoing
     }
-
+  
+    setLoading(true); // Set loading before processing payment
     const cardNumber = elements.getElement(CardNumberElement);
-
+  
     setPaymentStatus('Processing...');
-
+  
     const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: cardNumber,
         billing_details: { name: 'Customer Name' },
       },
     });
-
+  
+    setLoading(false); // Reset loading after processing
+  
     if (error) {
       setPaymentStatus(`Error: ${error.message}`);
     } else if (paymentIntent.status === 'succeeded') {
       setPaymentStatus('success');
       setIsModalVisible(true); // Show success modal
-
+  
       try {
         const userId = localStorage.getItem('userId');
+  
+        // Calculate totalAmount and total for each cart item
+        const cartWithTotals = cart.map(item => ({
+          ...item,
+          total: item.price * item.quantity * (1 - item.discount / 100), // Ensure `total` is included
+        }));
+        
+        const totalAmount = cart.reduce((total, item) => {
+//          console.log("Item:", item);
+          return total + (item.total || (item.price * item.quantity) || 0);
+        }, 0);
+        
+        /*  console.log('Sending Order Data:', {
+            userId,
+            cartItems: cartWithTotals,
+            paymentIntentId: paymentIntent.id,
+            totalAmount, 
+            paymentStatus: paymentIntent.status,
+          });*/
+
+          const response = await fetch('http://localhost:5000/api/order/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId,
+              cartItems: cartWithTotals,
+              paymentIntentId: paymentIntent.id,
+              totalAmount, // Ensure totalAmount is sent
+              paymentStatus: paymentIntent.status,
+            }),
+          });
+
+        
+        const result = await response.json();
+       // console.log(result); // Log response for debugging
+  
+       // Reduce stock after successful payment
+await Promise.all(
+  cartWithTotals.map(async (item) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/updateStock/${item.productId._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantitySold: item.quantity }),
+      });
+      //console.log("Updating stock for:", item.productId);
+
+      const data = await response.json();
+
+
+    } catch (error) {
+      console.error(`Error updating stock for ${item.itemName}:`, error);
+    }
+  })
+);
+
+  
+        // Clear the cart
         await fetch('http://localhost:5000/api/cart/clear', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId }),
         });
-
+  
         reloadCart();
       } catch (error) {
-        console.error('Failed to clear cart:', error);
+        console.error('Failed to store order or clear cart:', error);
       }
     } else {
       setPaymentStatus('Payment failed. Please try again.');
     }
   };
+  
 
   const handleModalClose = () => {
     setIsModalVisible(false);
     navigate('/home'); 
-
   };
 
   const cardStyle = {
@@ -108,18 +178,18 @@ const CheckoutForm = () => {
         <form onSubmit={handleSubmit} style={formStyles}>
           <div style={{ width: '400px', height: '500px', textAlign: 'left' }}>
             <div style={{ marginBottom: '30px' }}>
-              <img
+            <img
                 src={imageSrc}
                 alt="Logo"
                 style={{ marginLeft: '15px', marginBottom: '3px', width: '100px', height: '100px' }}
               />
-              <span>
+          {/*      <span>
                 <img
                   src={StripImageSrc}
                   alt="Logo"
                   style={{ marginLeft: '100px', width: '180px', height: '100px' }}
                 />
-              </span>
+              </span>*/}
             </div>
 
             <div style={formGroupStyles}>
@@ -134,8 +204,8 @@ const CheckoutForm = () => {
               <label htmlFor="card-cvc" style={labelStyles}>CVC</label>
               <CardCvcElement id="card-cvc" options={cardStyle} style={cardElementStyles} />
             </div>
-            <button type="submit" style={payButtonStyles} disabled={!stripe || !clientSecret}>
-              Pay Now
+            <button type="submit" style={payButtonStyles} disabled={!stripe || !clientSecret || loading}>
+              {loading ? 'Processing...' : 'Pay Now'}
             </button>
           </div>
           {paymentStatus && paymentStatus !== 'Processing...' && (
