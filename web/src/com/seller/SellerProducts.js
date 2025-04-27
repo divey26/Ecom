@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Select, Space, Typography, Modal, Button, Form, Row, Col, Input, Upload, message, Radio } from 'antd';
 import axios from 'axios';
 import { StockOutlined, UploadOutlined } from '@ant-design/icons';
-import { storage } from '../Firebase/firebaseConfig';
+import { storage } from '../../Firebase/firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import 'antd/dist/reset.css';
-import LayoutNew from '../Layout';
-import ProductList from './Products/ProductList'; // Path to the ProductsList component
+import LayoutNew from '../../Layout'
+import ProductList from './SellerProductList'; // Path to the ProductsList component
 
 const { Title } = Typography;
 const { Option } = Select;
 
-const CategoryModal = () => {
+const SellerProducts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -23,6 +23,16 @@ const CategoryModal = () => {
   const [discountType, setDiscountType] = useState('fixed'); // New state for discount type
   const [isDiscountHidden, setIsDiscountHidden] = useState(false); // State to track if discount input should be hidden
   const [discountValue, setDiscountValue] = useState(0); // State to track the discount value
+  const [sellerId, setSellerId] = useState('');
+
+
+  // Fetch sellerId from local storage on component mount
+useEffect(() => {
+  const storedSellerId = localStorage.getItem('sellerObjectId');
+  if (storedSellerId) {
+    setSellerId(storedSellerId);
+  }
+}, []);
 
   // Fetch categories from the backend
   useEffect(() => {
@@ -155,6 +165,8 @@ const CategoryModal = () => {
         imageURL: imageURL || productToEdit?.imageURL, // Use existing image URL if no new image is uploaded
         initialStocks: values.initialStocks, // Add initialStocks here
         currentStocks: values.currentStocks, // Add currentStocks here
+        sellerId: sellerId, // Include sellerId here
+
       };
   
       try {
@@ -221,6 +233,19 @@ const calculateDynamicDiscount = (values) => {
             footer={null}
           >
             <Form layout="vertical" onFinish={handleSave} initialValues={productToEdit}>
+            <Row gutter={[16, 16]}>
+                <Col span={24}>
+                <Form.Item
+                  name="sellerId"
+                  label="Seller ID"
+                  initialValue={sellerId} // Set the sellerId from state
+                >
+                  <Input disabled />
+                </Form.Item>
+
+                </Col>
+              </Row>
+
               <Row gutter={[16, 16]}>
                 <Col span={24}>
                   <Form.Item
@@ -284,9 +309,11 @@ const calculateDynamicDiscount = (values) => {
                   <Form.Item
                     name="rating"
                     label="Rating"
-                    rules={[{ required: true, message: 'Please input the rating!' }]}
+                    rules={[{ required: true, message: 'Please input the rating!' },
+                      { pattern: /^(10|\d)$/, message: 'Rating must be a number between 0 and 10' },
+                    ]}
                   >
-                    <Input type="number" min={0} max={5} />
+                    <Input type="number" min={0} max={10} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -305,7 +332,7 @@ const calculateDynamicDiscount = (values) => {
                     }}>
                       <Radio value="fixed">Fixed</Radio>
                       {/*<Radio value="hide">Dynamic</Radio>*/}
-                    </Radio.Group>
+                      </Radio.Group>
                   </Form.Item>
                 </Col>
               </Row>
@@ -381,4 +408,4 @@ const calculateDynamicDiscount = (values) => {
   );
 };
 
-export default CategoryModal;
+export default SellerProducts;
