@@ -22,7 +22,7 @@ const ProductsList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cat');
+        
         setCategories(response.data); // Store categories from the API
       } catch (error) {
         console.error('Error fetching categories:', error.response ? error.response.data : error.message);
