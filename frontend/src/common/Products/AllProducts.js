@@ -9,9 +9,7 @@ import ProductsList from './AllProList';
 const About = () => {
   return (
      <LayoutNew>
-        <Layout>
-             <ProductsList/>
-        </Layout>
+        
      </LayoutNew>
 
       
