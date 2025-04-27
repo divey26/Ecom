@@ -47,7 +47,7 @@ const ProductsList = () => {
         setProducts(filteredProducts);
         setLoading(false);
       } catch (error) {
-        message.error('Error fetching products'); //add colum
+        message.error('Error fetching products'); 
         setLoading(false);
       }
     };
