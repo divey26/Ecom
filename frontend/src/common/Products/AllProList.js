@@ -58,7 +58,13 @@ const ProductsList = () => {
   const categoryName = categories.find(category => category.categoryId === categoryId)?.categoryName;
 
   // Render product rating stars
-  
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(i < rating ? '⭐' : '☆');
+    }
+    return stars.join(' ');
+  };
 
   // Trim product description
   const trimDescription = (description, maxLength = 50) => {
