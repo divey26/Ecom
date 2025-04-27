@@ -12,10 +12,16 @@ import HomePage from './common/Home/HomePage';
 import Login from "./common/Auth/Login";
 import Sign from "./common/Auth/Sign";
 import Banner from "./common/Home/banner";
-import All from "./common/Products/AllProducts";
+import All from "./common/Products/AllProList";
+import FilterPro from "./common/Products/AllProducts";
 import CartView from "./common/cart/CartView";
 import Summa from "./common/Home/summa";
 import Checkout from "./common/Payment/Checkout";
+import Feed from "./common/Feedback/feedback";
+import Profile from "./common/Auth/Profile";
+
+
+import Try from "./common/Try-on/Tryon";
 
 
 function App() {
@@ -31,12 +37,18 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/about" element={<ProtectedRoute Component={About} />} />
               <Route path="/ban" element={<Banner />} />
-              <Route path="/all-pro/:categoryId" element={<All />} />
+              <Route path="/all-pro/:categoryId" element={<FilterPro />} />
               <Route path="/cart" element={<CartView />} />
               <Route path="/summa" element={<Summa />} />
+              <Route path="/feed" element={<Feed />} />
+              <Route path="/all" element={<All />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/product/:productId" element={<SingleProduct />} />
             
+              <Route path="/try" element={<Try />} />
+
+
               <Route path="*" element={<NotFound />} />
 
             </Routes>

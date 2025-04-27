@@ -1,34 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../utils/AuthContext'; // Import AuthContext
 import imageSrc from "../../Images/logo.png";
 
 const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { setAuthenticated, setUserDetails } = useContext(AuthContext); // Access context functions
 
   const onFinish = async (values) => {
     try {
+      // Make API call to log the user in
       const response = await axios.post('http://localhost:5000/api/user/login', values);
       console.log("Login Response:", response.data);
 
       const { token, userId, email, address, phone } = response.data;
 
-      // Store token and user data in localStorage
+      // Update the context with the authentication details
+      setAuthenticated(true);  // Set the user as authenticated
+      setUserDetails({ userId, email, address, phone }); // Set the user details in context
+
+      // Store token and user details in localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
       localStorage.setItem('userEmail', email);
       localStorage.setItem('userAddress', address);
       localStorage.setItem('userPhone', phone);
 
-      // Clear the cart when a new user logs in
-      localStorage.removeItem('cart'); // Clear any existing cart data
+      // Clear the cart if there's any existing cart data
+      localStorage.removeItem('cart');
 
-      console.log(localStorage.getItem('userAddress'));  // Check if address is stored correctly
-      console.log(localStorage.getItem('userPhone'));    // Check if phone is stored correctly
-
-      // Redirect user to the home page after successful login
+      // Redirect to the home page after successful login
       navigate('/home');
     } catch (error) {
       console.error('Error logging in:', error);
@@ -87,6 +91,10 @@ const Login = () => {
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%', backgroundColor: "#F3C623", color: "blue", fontSize: "20px" }}>Login</Button>
         </Form.Item>
+
+        <div style={{ textAlign: "center", marginTop: "10px", fontSize: "16px", color: "white" }}>
+          Don't have an account? <a href="/sign" style={{ color: "#F3C623", fontWeight: "bold" }}>Sign up</a>
+        </div>
       </Form>
     </div>
   );
@@ -107,11 +115,6 @@ const styles = {
     backgroundColor: '#004f9a',
     borderRadius: '8px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-  },
-  '@media (max-width: 768px)': {
-    form: {
-      padding: '15px',
-    },
   },
 };
 
