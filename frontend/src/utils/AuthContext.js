@@ -9,8 +9,9 @@ const removeLocalStorage = (keys) => keys.forEach((key) => localStorage.removeIt
 export const AuthContext = createContext({
   authenticated: false,
   userDetails: null,
-  setAuthenticated: () => {},
-  logout: () => {},
+  setAuthenticated: () => {}, // Default function should be empty
+  setUserDetails: () => {},   // Default function should be empty
+  logout: () => {}
 });
 
 // AuthProvider component to wrap the app
@@ -40,25 +41,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, userDetails, setAuthenticated, logout }}>
+    <AuthContext.Provider value={{ authenticated, userDetails, setAuthenticated, setUserDetails, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-// Function to check if the user is authenticated
-export const isAuthenticate = () => {
-  const token = getLocalStorage('token');
-  if (token) {
-    return {
-      authenticated: true,
-      userDetails: {
-        userId: getLocalStorage('userId'),
-        email: getLocalStorage('userEmail'),
-        address: getLocalStorage('userAddress'),
-        phone: getLocalStorage('userPhone'),
-      },
-    };
-  }
-  return { authenticated: false, userDetails: null };
 };

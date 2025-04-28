@@ -6,14 +6,10 @@ import {
 } from "@ant-design/icons";
 import { Layout, Button, Badge, Select, Input } from "antd";
 import { FloatButton } from "antd";
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import imageSrc from "./Images/logo.png";
-import Flag from "react-world-flags"; // Import Flag component
 import styled from 'styled-components';
 import { useCart } from './common/cart/CartContext';
-import './locales/i18n';  // Import the i18n configuration
-
 
 const { Header, Content, Footer } = Layout;
 const { Option } = Select;
@@ -22,11 +18,7 @@ const App = ({ children, userType }) => {
   const navigate = useNavigate();
   const [isBackTopVisible, setIsBackTopVisible] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
-  const [language, setLanguage] = useState("en"); // Default language is English
   const { cart } = useCart();
-  const { i18n } = useTranslation(); // Initialize useTranslation hook
-
-  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,10 +45,9 @@ const App = ({ children, userType }) => {
   const handleNavigateToCart = () => {
     navigate("/cart");
   };
-
-  const handleLanguageChange = (value) => {
-    setLanguage(value);
-    i18n.changeLanguage(value);  // Change language dynamically
+  
+  const handleNavigateToFeed = () => {
+    navigate("/feed");
   };
 
   return (
@@ -94,7 +85,7 @@ const App = ({ children, userType }) => {
                   color: "#F3C623",
                 }}
               >
-                {t('HALO')}
+                HALO
               </span>
             </a>
           </div>
@@ -113,7 +104,7 @@ const App = ({ children, userType }) => {
             Delivery to SRILANKA
           </div>
 
-          {/* Search Bar and Language Selector in the middle */}
+          {/* Search Bar in the middle */}
           <div
             style={{
               display: "flex",
@@ -154,54 +145,6 @@ const App = ({ children, userType }) => {
             />
           </div>
 
-
-          <div>
-              {/* Language Selector */}
-              <Select
-              defaultValue={language}
-              style={{
-                width: 90,
-                height: "40px",
-                fontSize: "16px",
-                marginLeft: "10px",
-              }}
-              onChange={handleLanguageChange}
-            >
-              <Option value="en" label="en">
-                <Flag code="US" style={{ width: "20px", marginRight: "10px" }} />
-                EN
-              </Option>
-              <Option value="ta" label="ta">
-                <Flag code="IN" style={{ width: "20px", marginRight: "10px" }} />
-                TAM
-              </Option>
-              <Option value="zh" label="zh">
-                <Flag code="CN" style={{ width: "20px", marginRight: "10px" }} />
-                ZH
-              </Option>
-              <Option value="fr" label="fr">
-                <Flag code="FR" style={{ width: "20px", marginRight: "10px" }} />
-                FR
-              </Option>
-              <Option value="si" label="si">
-                <Flag code="LK" style={{ width: "20px", marginRight: "10px" }} />
-                SI
-              </Option>
-              <Option value="de" label="de">
-                <Flag code="DE" style={{ width: "20px", marginRight: "10px" }} />
-                DE
-              </Option>
-              <Option value="es" label="es">
-                <Flag code="ES" style={{ width: "20px", marginRight: "10px" }} />
-                ES
-              </Option>
-              <Option value="it" label="it">
-                <Flag code="IT" style={{ width: "20px", marginRight: "10px" }} />
-                IT
-              </Option>
-            </Select>
-          </div>
-
           {/* Cart Icon on the right */}
           <div style={{ textAlign: "right", marginTop: "10px", marginRight: "5px", cursor: "pointer" }} onClick={handleNavigateToCart}>
             <Badge count={cart.length}>
@@ -231,10 +174,10 @@ const App = ({ children, userType }) => {
 
         <StyledFooter>
           <div>
-            {t('We’d love to hear what you think!')}
+            We’d love to hear what you think!
             <br /><br />
-            <Button style={{ color: "#004f9a", borderColor: "#004f9a", borderRadius: "50px" }}>
-              {t('Give feedback')}
+            <Button style={{ color: "#004f9a", borderColor: "#004f9a", borderRadius: "50px" }} onClick={handleNavigateToFeed}>
+              Give feedback
             </Button>
           </div>
         </StyledFooter>
@@ -248,8 +191,8 @@ const App = ({ children, userType }) => {
             fontSize: "14px",
           }}
         >
-          <p>&copy; {t('2024 HALO. All rights reserved.')}.</p>
-          <p>{t('Powered by')} Dvenoph</p>
+          <p>&copy; 2024 HALO. All rights reserved.</p>
+          <p>Powered by Dvenoph</p>
         </Footer>
       </Layout>
     </Layout>

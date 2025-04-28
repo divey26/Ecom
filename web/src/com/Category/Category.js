@@ -93,11 +93,11 @@ const CategoryPage = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "#004f9a" }}
               >
-                Department
+                Category
               </Title>
             </Space>
             <Button type="primary" onClick={() => setIsAddItemModalVisible(true)} style={{backgroundColor:"#ffc221",color:"black"}}>
-              Add Department
+              Add Category
             </Button>
           </Space>
 
