@@ -90,7 +90,7 @@ const LoginForm = () => {
         {/* Don't have an account? Sign Up */}
         <div style={{ textAlign: 'center', marginTop: 15 }}>
           <Text style={{ color: 'wheat' }}>Don't have an account? </Text>
-          <Link to="/sellers" style={{ color: "#F3C623", fontWeight: "bold" }}>Sign Up</Link>
+          <Link to="/sign" style={{ color: "#F3C623", fontWeight: "bold" }}>Sign Up</Link>
         </div>
       </div>
     </div>

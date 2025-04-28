@@ -43,7 +43,7 @@ const ProductsList = () => {
         setProducts(data.products); // Set all products without filtering by categoryId
         setLoading(false);
       } catch (error) {
-        message.error('Error fetching products');
+        message.error('Error fetching products'); 
         setLoading(false);
       }
     };
