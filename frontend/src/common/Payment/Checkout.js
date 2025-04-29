@@ -59,6 +59,10 @@ const CheckoutForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!stripe || !elements || !clientSecret || loading) {
+      return; // Exit if the process is already ongoing
+    }
+
     setLoading(true); // Set loading before processing payment
     const cardNumber = elements.getElement(CardNumberElement);
 
