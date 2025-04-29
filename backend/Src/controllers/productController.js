@@ -83,9 +83,7 @@ exports.getProducts = async (req, res) => {
         { new: true } // Return the updated product
       );
     
-      if (!updatedProduct) {
-        return res.status(404).json({ message: 'Product not found' });
-      }
+      
     
       res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
     } catch (error) {
