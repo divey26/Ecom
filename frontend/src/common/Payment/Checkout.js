@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Result, Modal } from 'antd';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  Elements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import { useCart } from '../cart/CartContext';
 import LayoutNew from '../../Layout';
 import imageSrc from '../../Images/logo.png';
 //import StripImageSrc from '../../Images/StripeLogo.jpeg';
 import { useNavigate } from 'react-router-dom';
 
-const stripePromise = loadStripe('pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL');
+const stripePromise = loadStripe(
+  'pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL'
+);
 
 const CheckoutForm = () => {
   const { cart } = useCart();
@@ -21,7 +30,6 @@ const CheckoutForm = () => {
   const { reloadCart } = useCart();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     for (const item of cart) {
       if (item.currentStocks < item.quantity) {
@@ -30,9 +38,12 @@ const CheckoutForm = () => {
       }
     }
   }, [cart]);
-  
+
   useEffect(() => {
-    const totalAmount = cart.reduce((total, item) => total + item.price * 100, 0);
+    const totalAmount = cart.reduce(
+      (total, item) => total + item.price * 100,
+      0
+    );
 
     fetch('http://localhost:5000/api/payment/create-payment-intent', {
       method: 'POST',
@@ -47,45 +58,48 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (!stripe || !elements || !clientSecret || loading) {
       return; // Exit if the process is already ongoing
     }
-  
+
     setLoading(true); // Set loading before processing payment
     const cardNumber = elements.getElement(CardNumberElement);
-  
+
     setPaymentStatus('Processing...');
-  
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardNumber,
-        billing_details: { name: 'Customer Name' },
-      },
-    });
-  
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card: cardNumber,
+          billing_details: { name: 'Customer Name' },
+        },
+      }
+    );
+
     setLoading(false); // Reset loading after processing
-  
+
     if (error) {
       setPaymentStatus(`Error: ${error.message}`);
     } else if (paymentIntent.status === 'succeeded') {
       setPaymentStatus('success');
       setIsModalVisible(true); // Show success modal
-  
+
       try {
         const userId = localStorage.getItem('userId');
-  
+
         // Calculate totalAmount and total for each cart item
-        const cartWithTotals = cart.map(item => ({
+        const cartWithTotals = cart.map((item) => ({
           ...item,
           total: item.price * item.quantity * (1 - item.discount / 100), // Ensure `total` is included
         }));
-        
+
         const totalAmount = cart.reduce((total, item) => {
-//          console.log("Item:", item);
-          return total + (item.total || (item.price * item.quantity) || 0);
+          //          console.log("Item:", item);
+          return total + (item.total || item.price * item.quantity || 0);
         }, 0);
-        
+
         /*  console.log('Sending Order Data:', {
             userId,
             cartItems: cartWithTotals,
@@ -94,50 +108,52 @@ const CheckoutForm = () => {
             paymentStatus: paymentIntent.status,
           });*/
 
-          const response = await fetch('http://localhost:5000/api/order/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              userId,
-              cartItems: cartWithTotals,
-              paymentIntentId: paymentIntent.id,
-              totalAmount, // Ensure totalAmount is sent
-              paymentStatus: paymentIntent.status,
-            }),
-          });
+        const response = await fetch('http://localhost:5000/api/order/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId,
+            cartItems: cartWithTotals,
+            paymentIntentId: paymentIntent.id,
+            totalAmount, // Ensure totalAmount is sent
+            paymentStatus: paymentIntent.status,
+          }),
+        });
 
-        
         const result = await response.json();
-       // console.log(result); // Log response for debugging
-  
-       // Reduce stock after successful payment
-await Promise.all(
-  cartWithTotals.map(async (item) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/products/updateStock/${item.productId._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantitySold: item.quantity }),
-      });
-      //console.log("Updating stock for:", item.productId);
+        // console.log(result); // Log response for debugging
 
-      const data = await response.json();
+        // Reduce stock after successful payment
+        await Promise.all(
+          cartWithTotals.map(async (item) => {
+            try {
+              const response = await fetch(
+                `http://localhost:5000/api/products/updateStock/${item.productId._id}`,
+                {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ quantitySold: item.quantity }),
+                }
+              );
+              //console.log("Updating stock for:", item.productId);
 
+              const data = await response.json();
+            } catch (error) {
+              console.error(
+                `Error updating stock for ${item.itemName}:`,
+                error
+              );
+            }
+          })
+        );
 
-    } catch (error) {
-      console.error(`Error updating stock for ${item.itemName}:`, error);
-    }
-  })
-);
-
-  
         // Clear the cart
         await fetch('http://localhost:5000/api/cart/clear', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId }),
         });
-  
+
         reloadCart();
       } catch (error) {
         console.error('Failed to store order or clear cart:', error);
@@ -146,11 +162,10 @@ await Promise.all(
       setPaymentStatus('Payment failed. Please try again.');
     }
   };
-  
 
   const handleModalClose = () => {
     setIsModalVisible(false);
-    navigate('/home'); 
+    navigate('/home');
   };
 
   const cardStyle = {
@@ -178,12 +193,17 @@ await Promise.all(
         <form onSubmit={handleSubmit} style={formStyles}>
           <div style={{ width: '400px', height: '500px', textAlign: 'left' }}>
             <div style={{ marginBottom: '30px' }}>
-            <img
+              <img
                 src={imageSrc}
                 alt="Logo"
-                style={{ marginLeft: '15px', marginBottom: '3px', width: '100px', height: '100px' }}
+                style={{
+                  marginLeft: '15px',
+                  marginBottom: '3px',
+                  width: '100px',
+                  height: '100px',
+                }}
               />
-          {/*      <span>
+              {/*      <span>
                 <img
                   src={StripImageSrc}
                   alt="Logo"
@@ -193,18 +213,40 @@ await Promise.all(
             </div>
 
             <div style={formGroupStyles}>
-              <label htmlFor="card-element" style={labelStyles}>Card Number</label>
-              <CardNumberElement id="card-element" options={cardStyle} style={cardElementStyles} />
+              <label htmlFor="card-element" style={labelStyles}>
+                Card Number
+              </label>
+              <CardNumberElement
+                id="card-element"
+                options={cardStyle}
+                style={cardElementStyles}
+              />
             </div>
             <div style={formGroupStyles}>
-              <label htmlFor="card-expiry" style={labelStyles}>Expiration Date</label>
-              <CardExpiryElement id="card-expiry" options={cardStyle} style={cardElementStyles} />
+              <label htmlFor="card-expiry" style={labelStyles}>
+                Expiration Date
+              </label>
+              <CardExpiryElement
+                id="card-expiry"
+                options={cardStyle}
+                style={cardElementStyles}
+              />
             </div>
             <div style={formGroupStyles}>
-              <label htmlFor="card-cvc" style={labelStyles}>CVC</label>
-              <CardCvcElement id="card-cvc" options={cardStyle} style={cardElementStyles} />
+              <label htmlFor="card-cvc" style={labelStyles}>
+                CVC
+              </label>
+              <CardCvcElement
+                id="card-cvc"
+                options={cardStyle}
+                style={cardElementStyles}
+              />
             </div>
-            <button type="submit" style={payButtonStyles} disabled={!stripe || !clientSecret || loading}>
+            <button
+              type="submit"
+              style={payButtonStyles}
+              disabled={!stripe || !clientSecret || loading}
+            >
               {loading ? 'Processing...' : 'Pay Now'}
             </button>
           </div>
