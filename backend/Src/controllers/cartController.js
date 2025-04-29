@@ -39,6 +39,7 @@ exports.addItemToCart = async (req, res) => {
       );
       if (itemIndex > -1) {
         // Update quantity if item exists
+          // Update quantity if item exists
         cart.items[itemIndex].quantity += quantity;
       } else {
         // Add new item if it doesn't exist in the cart
