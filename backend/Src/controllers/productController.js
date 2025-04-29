@@ -21,7 +21,7 @@ exports.createProduct = async (req, res) => {
       rating,
       offerName,
       discount,
-      description,
+      
       imageURL,
       initialStocks,
       currentStocks: initialStocks,  // Ensure currentStocks is set properly
