@@ -101,7 +101,7 @@ useEffect(() => {
           async () => {
             try {
               const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              message.success('Upload successful!');
+              
               setIsUploading(false);
               resolve(downloadURL);
             } catch (error) {
