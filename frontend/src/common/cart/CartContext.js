@@ -29,17 +29,7 @@ export const CartProvider = ({ children }) => {
 
 
 
-  const addToCart = async (product) => {
-    try {
-      const userId = localStorage.getItem('userId')
-      const response = await axios.post('http://localhost:5000/api/cart/add', {
-        userId,
-        productId: product._id, // Assuming _id is the product identifier
-        quantity: 1,
-        discount:1,
-        
-        
-      });
+  
       setCart(response.data.cart.items); // Update cart from the backend response
 
     } catch (error) {
