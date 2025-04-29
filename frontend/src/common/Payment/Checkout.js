@@ -163,11 +163,6 @@ const CheckoutForm = () => {
     }
   };
 
-  const handleModalClose = () => {
-    setIsModalVisible(false);
-    navigate('/home');
-  };
-
   const cardStyle = {
     style: {
       base: {
