@@ -43,7 +43,19 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  
+  const removeFromCart = async (productId) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.delete(
+        'http://localhost:5000/api/cart/remove',
+        {
+          data: { userId, productId },
+        }
+      );
+      setCart(response.data.cart.items); // Update cart from the backend response
+    } catch (error) {
+      console.error('Failed to remove item from cart:', error);
+    }
   };
 
   const updateQuantity = async (productId, quantity) => {
