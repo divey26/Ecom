@@ -125,7 +125,7 @@ useEffect(() => {
     setIsModalOpen(true);
     if (product) {
       setSelectedCategory(product.category);
-      
+      setSelectedSubcategory(product.subcategory);
       setFile(null); // Optional, reset file
       setDiscountType(product.discountType || 'percentage'); // Set discount type from the product data
       setDiscountValue(product.discount || 0); // Set discount value
