@@ -92,18 +92,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        loading,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        reloadCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+   
   );
 };
 
