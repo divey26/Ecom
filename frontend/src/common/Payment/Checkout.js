@@ -32,6 +32,10 @@ const CheckoutForm = () => {
 
   useEffect(() => {
     for (const item of cart) {
+      if (item.currentStocks < item.quantity) {
+        setPaymentStatus(`Error: ${item.itemName} is out of stock.`);
+        return;
+      }
     }
   }, [cart]);
 
