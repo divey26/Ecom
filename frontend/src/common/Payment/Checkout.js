@@ -242,14 +242,7 @@ const CheckoutForm = () => {
                 style={cardElementStyles}
               />
             </div>
-            <button
-              type="submit"
-              style={payButtonStyles}
-              disabled={!stripe || !clientSecret || loading}
-            >
-              {loading ? 'Processing...' : 'Pay Now'}
-            </button>
-          </div>
+           
           {paymentStatus && paymentStatus !== 'Processing...' && (
             <p style={statusStyles}>{paymentStatus}</p>
           )}
