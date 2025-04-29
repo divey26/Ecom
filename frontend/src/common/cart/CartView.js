@@ -291,7 +291,13 @@ const CartView = () => {
                 </span>
               </div>
 
-             
+              <Button
+                type="primary"
+                style={{ marginTop: '20px', width: '100%' }}
+                onClick={() => navigate('/checkout')}
+              >
+                Proceed to Checkout
+              </Button>
             </div>
           )}
         </div>
