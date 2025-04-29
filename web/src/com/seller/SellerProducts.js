@@ -165,7 +165,7 @@ useEffect(() => {
         imageURL: imageURL || productToEdit?.imageURL, // Use existing image URL if no new image is uploaded
         initialStocks: values.initialStocks, // Add initialStocks here
         currentStocks: values.currentStocks, // Add currentStocks here
-        
+        sellerId: sellerId, // Include sellerId here
 
       };
   
