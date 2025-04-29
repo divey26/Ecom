@@ -10,7 +10,7 @@ const createPaymentIntent = async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
-      currency: 'usd', // or your local
+      currency: 'usd', // or your local currency
       payment_method_types: ['card'],
     });
 
