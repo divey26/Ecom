@@ -285,6 +285,18 @@ const Checkout = () => {
 };
 
 // Inline Styles
+const formStyles = {
+  maxWidth: '800px',
+  margin: '0 auto',
+  paddingTop: '50px',
+  paddingLeft: '70px',
+  paddingRight: '50px',
+  backgroundColor: '#f9f9f9',
+  borderRadius: '8px',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  fontSize: '20px',
+  textAlign: 'left',
+};
 
 const formGroupStyles = {
   marginBottom: '20px',
