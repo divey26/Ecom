@@ -116,7 +116,9 @@ exports.getProducts = async (req, res) => {
 
   
   // productController.js
-  
+  exports.updateStock = async (req, res) => {
+    const { productId } = req.params; // productId from URL parameter
+    const { quantitySold } = req.body; // quantitySold from request body
     
    // console.log('Received productId:', productId);  // Log the received productId
     const objectId = new mongoose.Types.ObjectId(productId);
