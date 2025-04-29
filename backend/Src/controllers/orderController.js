@@ -9,15 +9,7 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ message: 'Invalid or missing order details' });
     }
 
-    const newOrder = new Order({
-      userId,
-      cartItems,
-      totalAmount,
-      paymentIntentId,
-      paymentStatus,
-      orderDate: new Date(),
-      shippingAddress,
-    });
+    
 
     await newOrder.save();
     res.status(201).json({ message: 'Order created successfully', order: newOrder });
