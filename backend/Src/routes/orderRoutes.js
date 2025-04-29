@@ -6,8 +6,6 @@ const { createOrder, getAllOrders } = require('../controllers/orderController');
 router.post('/create', createOrder);
 
 // Get all orders
-router.get('/view', getAllOrders);  // This will handle fetching all orders.
+router.get('/view', getAllOrders); // This will handle fetching all orders.
 
 module.exports = router;
-
-
