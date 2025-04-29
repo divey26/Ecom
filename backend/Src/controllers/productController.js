@@ -126,11 +126,7 @@ exports.getProducts = async (req, res) => {
     try {
       const product = await Product.findById(objectId);
     
-      if (!product) {
-        console.log('Product not found');
-        return res.status(404).json({ message: 'Product not found' });
-      }
-    
+      
       if (product.currentStocks < quantitySold) {
         console.log('Insufficient stock');
         return res.status(400).json({ message: 'Insufficient stock' });
