@@ -317,6 +317,17 @@ const cardElementStyles = {
   fontSize: '18px',
 };
 
+const payButtonStyles = {
+  backgroundColor: '#004f9a',
+  color: 'white',
+  padding: '16px',
+  width: '100%',
+  border: 'none',
+  borderRadius: '4px',
+  fontSize: '18px',
+  cursor: 'pointer',
+};
+
 const statusStyles = {
   marginTop: '20px',
   textAlign: 'center',
