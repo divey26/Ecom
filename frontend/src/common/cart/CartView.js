@@ -27,10 +27,7 @@ const CartView = () => {
   const { deadline } = useDeadline(); // Access deadline from shared state
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Reload cart data when the component mounts
-    reloadCart && reloadCart(); // Optional if reloadCart is defined in useCart
-  }, []);
+
 
   const trimDescription = (description, maxLength = 50) => {
     if (description.length > maxLength) {
