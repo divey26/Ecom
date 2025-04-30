@@ -5,6 +5,7 @@ import { storage } from '../../Firebase/firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const AdminPage = () => {
+  // State variables for form fields and control flags
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
@@ -13,12 +14,12 @@ const AdminPage = () => {
   const [cards, setCards] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [editingCard, setEditingCard] = useState(null); // Card being edited
-  const [existingLayouts, setExistingLayouts] = useState(new Set());
+  const [editingCard, setEditingCard] = useState(null); // Stores the card being edited
+  const [existingLayouts, setExistingLayouts] = useState(new Set()); // Track unique layouts
   const [form] = Form.useForm(); // Ant Design form instance
-  const fileInputRef = useRef(null); // Ref for file input
+  const fileInputRef = useRef(null); // Ref for resetting file input
 
-  // Columns for the Table
+  // Table column definitions
   const columns = [
     {
       title: 'Title',
@@ -50,10 +51,12 @@ const AdminPage = () => {
     },
   ];
 
+  // Fetch existing cards from backend
   const fetchCards = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/pricard');
       setCards(response.data);
+      // Update set of unique layouts
       const layouts = new Set(response.data.map((card) => card.layout));
       setExistingLayouts(layouts);
     } catch (error) {
@@ -61,10 +64,12 @@ const AdminPage = () => {
     }
   };
 
+  // Fetch cards on component mount
   useEffect(() => {
     fetchCards();
   }, []);
 
+  // Handle image upload to Firebase
   const handleImageUpload = async (file) => {
     const supportedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!supportedTypes.includes(file.type)) {
@@ -77,16 +82,19 @@ const AdminPage = () => {
       const storageRef = ref(storage, `cards/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
+      // Monitor upload progress
       uploadTask.on(
         'state_changed',
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log(`Upload is ${progress}% done`);
         },
+        // On upload error
         (error) => {
           message.error('Failed to upload image');
           setIsUploading(false);
         },
+        // On upload complete
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImage(downloadURL);
@@ -100,6 +108,7 @@ const AdminPage = () => {
     }
   };
 
+  // Handle form submission to create a new card
   const handleSubmit = async () => {
     if (!title || !description || !image || !layout) {
       message.error('Please fill all fields');
@@ -111,20 +120,21 @@ const AdminPage = () => {
     try {
       await axios.post('http://localhost:5000/api/pricard', data);
       message.success('Card saved successfully');
-      form.resetFields();
+      form.resetFields(); // Clear form fields
       setImage(null);
-      if (fileInputRef.current) fileInputRef.current.value = '';
+      if (fileInputRef.current) fileInputRef.current.value = ''; // Reset file input
       setTitle('');
       setDescription('');
       setLayout('default');
-      fetchCards();
-      setIsModalVisible(false);
+      fetchCards(); // Refresh card list
+      setIsModalVisible(false); // Close modal
     } catch (error) {
       console.log('Error during form submission:', error);
       message.error('Failed to save card');
     }
   };
 
+  // Handle form submission to update an existing card
   const handleEditSubmit = async () => {
     if (!title || !description || !image) {
       message.error('Please fill all fields');
@@ -136,7 +146,7 @@ const AdminPage = () => {
     try {
       await axios.put(`http://localhost:5000/api/pricard/${editingCard._id}`, updatedData);
       message.success('Card updated successfully');
-      fetchCards();
+      fetchCards(); // Refresh card list
       setIsEditModalVisible(false);
       setEditingCard(null);
       setImage(null);
@@ -146,6 +156,7 @@ const AdminPage = () => {
     }
   };
 
+  // Populate modal with card data for editing
   const handleEdit = (record) => {
     setEditingCard(record);
     setTitle(record.title);
@@ -159,14 +170,16 @@ const AdminPage = () => {
     <>
       <div style={{ padding: '20px', borderTop: '2px solid gray' }}>
         <h2>Primary Layout</h2>
+        {/* Add new card button */}
         <Button
           type="primary"
           onClick={() => setIsModalVisible(true)}
-          disabled={existingLayouts.size === 10}
+          disabled={existingLayouts.size === 10} // Disable if 10 layouts already exist
         >
           Add +
         </Button>
 
+        {/* Modal for adding a new card */}
         <Modal
           title="Add New Card"
           open={isModalVisible}
@@ -186,6 +199,7 @@ const AdminPage = () => {
                 onChange={(value) => setLayout(value)}
                 style={{ width: '100%' }}
               >
+                {/* Dropdown options for 10 layout choices */}
                 {Array.from({ length: 10 }, (_, i) => `L${i + 1}`).map((layout) => (
                   <Select.Option key={layout} value={layout}>
                     {layout} card
@@ -207,6 +221,7 @@ const AdminPage = () => {
           </Form>
         </Modal>
 
+        {/* Modal for editing a card */}
         <Modal
           title="Edit Card"
           open={isEditModalVisible}
@@ -234,6 +249,7 @@ const AdminPage = () => {
           </Form>
         </Modal>
 
+        {/* Display list of cards in table */}
         <div style={{ marginTop: '20px' }}>
           <Table columns={columns} dataSource={cards} rowKey="_id" />
         </div>
