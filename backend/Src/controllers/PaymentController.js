@@ -7,7 +7,13 @@ const stripe = require('stripe')(
 const createPaymentIntent = async (req, res) => {
   const { amount } = req.body; // Amount in cents
 
-  
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: 'usd', // or your local currency
+      payment_method_types: ['card'],
+    });
+
     res.send({
       clientSecret: paymentIntent.client_secret, // Send the client_secret back to the frontend
     });
