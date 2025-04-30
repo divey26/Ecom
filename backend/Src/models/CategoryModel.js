@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const subcategorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const categorySchema = new mongoose.Schema({
@@ -20,7 +20,7 @@ const categorySchema = new mongoose.Schema({
   imageURL: {
     type: String,
     required: true,
-  }
+  },
 });
 
 const Category = mongoose.model('Category', categorySchema);
