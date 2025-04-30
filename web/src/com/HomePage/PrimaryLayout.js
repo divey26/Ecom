@@ -95,13 +95,7 @@ const AdminPage = () => {
           message.error('Failed to upload image');
           setIsUploading(false);
         },
-        // On upload complete
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setImage(downloadURL);
-          setIsUploading(false);
-          message.success('Image uploaded successfully');
-        }
+       
       );
     } catch (error) {
       message.error('Failed to upload image');
