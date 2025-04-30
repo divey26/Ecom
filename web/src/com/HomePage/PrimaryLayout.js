@@ -70,7 +70,13 @@ const AdminPage = () => {
     fetchCards();
   }, []);
 
-
+  // Handle image upload to Firebase
+  const handleImageUpload = async (file) => {
+    const supportedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!supportedTypes.includes(file.type)) {
+      message.error('Unsupported file type');
+      return;
+    }
 
     try {
       setIsUploading(true);
