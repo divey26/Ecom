@@ -79,18 +79,7 @@ export const CartProvider = ({ children }) => {
 
   const reloadCart = async () => {
     setLoading(true);
-    try {
-      const userId = localStorage.getItem('userId');
-      const response = await axios.get(`http://localhost:5000/api/cart/${userId}`);
-      setCart(response.data.items); // Assuming 'items' is the array of cart items
-    } catch (error) {
-      console.error('Failed to reload cart:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-
+   
   
 
   return (
