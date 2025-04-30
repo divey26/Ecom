@@ -121,7 +121,21 @@ const CartView = () => {
                     lg={8}
                     style={{ display: 'flex', justifyContent: 'center' }}
                   >
-                   
+                    <Card
+                      style={{
+                        backgroundColor: '#f8f9fa',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        height: '200px',
+                        width: '300px',
+                        border: '1px solid #ddd',
+                        borderRadius: '10px',
+                        boxShadow: '0 2px 4px rgba(251, 54, 54, 0.1)',
+                      }}
+                    >
                       <img
                         src={car}
                         alt="Pickup Icon"
