@@ -146,7 +146,11 @@ const AdminPage = () => {
           onCancel={() => setIsModalVisible(false)}
           footer={null}
         >
-          
+          <Form onFinish={handleSubmit}>
+            <Form.Item label="Title" name="title">
+              <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+            </Form.Item>
+
             <Form.Item label="Description" name="description">
               <Input value={description} onChange={(e) => setDescription(e.target.value)} />
             </Form.Item>
