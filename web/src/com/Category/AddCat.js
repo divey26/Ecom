@@ -30,12 +30,7 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
     }
 
     try {
-      setIsUploading(true);
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        'divensignature@gmail.com',
-        '12345678'
-      );
+     
       const user = userCredential.user;
 
       const storageRef = ref(storage, `categories/${file.name}`);
