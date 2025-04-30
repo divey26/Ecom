@@ -14,6 +14,7 @@ const CardContainer = styled.div`
   color: #004f9a;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  
 `;
 
 const CardImage = styled.img`
@@ -25,7 +26,6 @@ const CardImage = styled.img`
   left: 0;
   z-index: 1;
 `;
-
 const TextContainer = styled.div`
   position: relative;
   z-index: 3;
