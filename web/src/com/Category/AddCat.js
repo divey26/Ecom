@@ -55,7 +55,18 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
             reject(error);
           },
           async () => {
-           
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              message.success('Upload successful!');
+              setIsUploading(false);
+              resolve(downloadURL);
+            } catch (error) {
+              message.error(
+                `Failed to retrieve download URL: ${error.message}`
+              );
+              setIsUploading(false);
+              reject(error);
+            }
           }
         );
       });
