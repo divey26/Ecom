@@ -15,7 +15,30 @@ const AdminPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
   const [existingLayouts, setExistingLayouts] = useState(new Set()); // To store unique layouts
 
-
+  // Columns for the Table
+  const columns = [
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (image) => <img src={image} alt="Card" style={{ width: '100px' }} />,
+    },
+    {
+      title: 'Layout',
+      dataIndex: 'layout',
+      key: 'layout',
+    },
+  ];
 
   // Fetch stored cards and update existing layouts
   const fetchCards = async () => {
