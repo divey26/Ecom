@@ -15,10 +15,7 @@ const DrawerNavigation = ({ visible, onClose }) => {
         { name: "Electronics", path: "/wat/electronics" },
       ],
     },
-    { name: "Category 2", path: "/category2" },
-    { name: "Category 3", path: "/category3" },
-    { name: "Category 4", path: "/category4" },
-  ];
+
 
   const toggleSubcategories = () => {
     setShowSubcategories((prev) => !prev);
