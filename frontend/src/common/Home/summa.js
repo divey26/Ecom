@@ -15,7 +15,15 @@ const CardContainer = styled.div`
   cursor: pointer;
 `;
 
-
+const CardImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+`;
 
 const TextContainer = styled.div`
   position: relative;
