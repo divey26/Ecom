@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import videoSrc from '../../Video/video.mp4';
 import { useCart } from '../cart/CartContext';
 import { useTranslation } from 'react-i18next';
+
 import SecondLayout from './Layouts/SecondaryBanner'
 import PrimaryLayout from './Layouts/PrimaryBanner'
 import Categories from './Layouts/categories'
