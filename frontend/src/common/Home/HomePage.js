@@ -79,6 +79,7 @@ const HomePage = () => {
     }
   };
   const showSlider = () => setVisible(true);
+
   const closeSlider = () => setVisible(false);
 
 
