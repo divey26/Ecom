@@ -144,13 +144,7 @@ const CheckoutForm = () => {
         </form>
 
         {/* Success Modal */}
-        <Modal
-          title="Payment Successful"
-          open={isModalVisible}
-          onOk={handleModalClose}
-          onCancel={handleModalClose}
-          footer={null}
-        >
+      
           <p>Your payment has been processed successfully.</p>
           <button
             style={{ ...payButtonStyles, backgroundColor: '#28a745' }}
