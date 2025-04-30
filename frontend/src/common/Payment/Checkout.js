@@ -83,23 +83,7 @@ const CheckoutForm = () => {
 
   };
 
-  const cardStyle = {
-    style: {
-      base: {
-        color: '#32325d',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSize: '18px',
-        fontSmoothing: 'antialiased',
-        '::placeholder': {
-          color: '#aab7c4',
-        },
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a',
-      },
-    },
-  };
+  
 
   return (
     <LayoutNew>
