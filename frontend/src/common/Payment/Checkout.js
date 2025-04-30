@@ -46,8 +46,7 @@ const CheckoutForm = () => {
       });
   }, [cart]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+
 
     if (!stripe || !elements || !clientSecret) {
       return;
