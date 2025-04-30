@@ -3,7 +3,8 @@ import { Layout } from "antd";
 import LayoutNew from '../../Layout';
 
 const TimeLimitPage = () => {
-
+  const [deadline, setDeadline] = useState('');
+  const [isSaved, setIsSaved] = useState(false);
 
   const saveDeadline = async () => {
     if (deadline) {
