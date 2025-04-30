@@ -50,16 +50,7 @@ const AdminPage = () => {
     },
   ];
 
-  const fetchCards = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/pricard');
-      setCards(response.data);
-      const layouts = new Set(response.data.map((card) => card.layout));
-      setExistingLayouts(layouts);
-    } catch (error) {
-      console.log('Failed to fetch cards');
-    }
-  };
+
 
   useEffect(() => {
     fetchCards();
