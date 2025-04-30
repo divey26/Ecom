@@ -122,6 +122,19 @@ exports.updateItemQuantity = async (req, res) => {
 };
 
 // Remove item from cart
+exports.removeItemFromCart = async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid userId format' });
+    }
+    const productIdValue = productId._id || productId;
+
+    const cart = await Cart.findOne({ userId });
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
 
     // Remove the item from the cart
     cart.items = cart.items.filter((item) => item.productId.toString() !== productIdValue);
