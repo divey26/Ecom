@@ -395,9 +395,7 @@ const calculateDynamicDiscount = (values) => {
                 </Col>
               </Row>
 
-              <Button type="primary" htmlType="submit" block>
-                Save Product
-              </Button>
+             
             </Form>
           </Modal>
         </div>
