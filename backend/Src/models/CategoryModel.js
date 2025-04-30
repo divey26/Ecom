@@ -7,11 +7,7 @@ const subcategorySchema = new mongoose.Schema({
   }
 });
 
-const categorySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+
   subcategories: [subcategorySchema],
   categoryId: {
     type: String, // Use a specific type based on your requirements
