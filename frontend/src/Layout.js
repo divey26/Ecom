@@ -115,15 +115,7 @@ const App = ({ children, userType }) => {
 
           {/* Search Bar and Language Selector in the middle */}
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#004f9a",
-              padding: "5px",
-              borderRadius: "30px",
-              width: "100%",
-              maxWidth: "900px",
+            s
             }}
           >
             <Input
