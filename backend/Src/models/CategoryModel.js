@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const subcategorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   subcategories: [subcategorySchema],
   categoryId: {
     type: String, // Use a specific type based on your requirements
@@ -16,7 +20,7 @@ const subcategorySchema = new mongoose.Schema({
   imageURL: {
     type: String,
     required: true,
-  }
+  },
 });
 
 const Category = mongoose.model('Category', categorySchema);
