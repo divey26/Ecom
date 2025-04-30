@@ -123,6 +123,9 @@ const AdminPage = () => {
   const isAddButtonDisabled = existingLayouts.size === 5;
 
   // Filter available layout options based on existing layouts
+  const availableLayouts = ['Left', 'Right', 'M1', 'M2', 'M3'].filter(
+    (layout) => !existingLayouts.has(layout)
+  );
 
   return (
 
