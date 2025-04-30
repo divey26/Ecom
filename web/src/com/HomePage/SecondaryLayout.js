@@ -130,15 +130,7 @@ const AdminPage = () => {
   return (
 
     
-      <div style={{ padding: '20px',borderTop:'2px solid gray' }}>
-        <h2>Secondary Layout</h2>
-        <Button
-          type="primary"
-          onClick={() => setIsModalVisible(true)}
-          disabled={isAddButtonDisabled} // Disable button if all layouts are present
-        >
-          Add +
-        </Button>
+
 
         <Modal
           title="Add New Card"
