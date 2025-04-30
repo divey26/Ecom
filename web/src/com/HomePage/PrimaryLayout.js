@@ -21,11 +21,7 @@ const AdminPage = () => {
 
   // Table column definitions
   const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
+   
     {
       title: 'Description',
       dataIndex: 'description',
