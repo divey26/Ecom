@@ -23,11 +23,7 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
     }
   };
 
-  const handleUpload = async (file) => {
-    if (!file) {
-      message.error("No file selected for upload.");
-      return null;
-    }
+  
 
     try {
       setIsUploading(true);
