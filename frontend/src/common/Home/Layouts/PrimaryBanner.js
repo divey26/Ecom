@@ -4,6 +4,18 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const CardContainer = styled.div`
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  height: ${(props) => props.height || '260px'};
+  text-align: left;
+  color: #004f9a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  
+`;
 
 const CardImage = styled.img`
   width: 100%;
@@ -14,6 +26,7 @@ const CardImage = styled.img`
   left: 0;
   z-index: 1;
 `;
+
 const TextContainer = styled.div`
   position: relative;
   z-index: 3;
