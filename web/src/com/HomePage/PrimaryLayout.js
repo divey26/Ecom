@@ -118,21 +118,7 @@ const AdminPage = () => {
 
     const data = { title, description, image, layout };
 
-    try {
-      await axios.post('http://localhost:5000/api/pricard', data);
-      message.success('Card saved successfully');
-      form.resetFields(); // Clear form fields
-      setImage(null);
-      if (fileInputRef.current) fileInputRef.current.value = ''; // Reset file input
-      setTitle('');
-      setDescription('');
-      setLayout('default');
-      fetchCards(); // Refresh card list
-      setIsModalVisible(false); // Close modal
-    } catch (error) {
-      console.log('Error during form submission:', error);
-      message.error('Failed to save card');
-    }
+
   };
 
   // Handle form submission to update an existing card
