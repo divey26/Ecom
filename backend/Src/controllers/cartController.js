@@ -113,13 +113,7 @@ exports.updateItemQuantity = async (req, res) => {
       cart.items.splice(itemIndex, 1);
     }
 
-    await cart.save();
-    res.status(200).json({ message: 'Cart updated', cart });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Failed to update cart' });
-  }
-};
+    
 
 // Remove item from cart
 exports.removeItemFromCart = async (req, res) => {
