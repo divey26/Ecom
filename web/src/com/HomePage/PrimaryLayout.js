@@ -10,6 +10,14 @@ const AdminPage = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [layout, setLayout] = useState('default');
+  const [cards, setCards] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [editingCard, setEditingCard] = useState(null); // Stores the card being edited
+  const [existingLayouts, setExistingLayouts] = useState(new Set()); // Track unique layouts
+  const [form] = Form.useForm(); // Ant Design form instance
+  const fileInputRef = useRef(null); // Ref for resetting file input
 
   // Table column definitions
   const columns = [
