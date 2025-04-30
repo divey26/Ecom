@@ -14,12 +14,6 @@ const createPaymentIntent = async (req, res) => {
       payment_method_types: ['card'],
     });
 
-    res.send({
-      clientSecret: paymentIntent.client_secret, // Send the client_secret back to the frontend
-    });
-  } catch (error) {
-    res.status(400).send({ error: error.message });
-  }
-};
+  
 
 module.exports = { createPaymentIntent };
