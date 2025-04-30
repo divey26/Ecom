@@ -12,11 +12,7 @@ import deliver from "../../Images/supplier.png";
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
-const CartView = () => {
-  const { cart, removeFromCart, updateQuantity ,reloadCart} = useCart(); // Access cart context
-  const { userDetails } = useContext(AuthContext);  // Access user details from the context
-  const { deadline } = useDeadline(); // Access deadline from shared state
-  const navigate = useNavigate();
+
 
 
   useEffect(() => {
