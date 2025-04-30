@@ -77,7 +77,18 @@ const Page1 = () => {
     </CardContainer>
   );
   
+  const fetchCards = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/pricard');
+      setCards(response.data);
+    } catch (error) {
+      console.log('Failed to fetch cards');
+    }
+  };
 
+  useEffect(() => {
+    fetchCards();
+  }, []);
 
   // Ensure at least 10 cards and add labels
   const repeatedCards = [...cards, ...cards.slice(0, 10 - cards.length)].map((card, index) => ({
