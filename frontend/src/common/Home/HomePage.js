@@ -16,6 +16,13 @@ import Categories from './Layouts/categories'
 import '../../locales/i18n'; 
 
 
+import p1 from "../../Images/p1.jpg";
+import p2 from "../../Images/p2.jpg";
+import p3 from "../../Images/p3.jpg";
+import p4 from "../../Images/p4.jpg";
+import prod1 from "../../Images/prod1.png"
+import banner1 from "../../Images/valBanner.jpg"
+
 import RatedPro from "./Layouts/RatedPro"
 import Banner from "./banner" 
 import Shorts from "./Layouts/ProShorts"
