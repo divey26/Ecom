@@ -71,7 +71,8 @@ export const CartProvider = ({ children }) => {
           discount: 1,
         }
       );
-      
+      setCart(response.data.cart.items); // Update cart from the backend response
+      console.log(response.data.cart.items);
     } catch (error) {
       console.error('Failed to update item quantity:', error);
     }
