@@ -9,11 +9,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { useCart } from '../cart/CartContext';
-import LayoutNew from '../../Layout';
-import imageSrc from '../../Images/logo.png';
-import StripImageSrc from '../../Images/StripeLogo.jpeg';
-import { useNavigate } from 'react-router-dom';
+
 
 const stripePromise = loadStripe(
   'pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL'
