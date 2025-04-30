@@ -9,6 +9,14 @@ import SecondaryLayout from './SecondaryLayout'
 const AdminPage = () => {
 
 
+  return (
+    <LayoutNew>
 
+        <PrimaryLayout/>
+        <SecondaryLayout/>
+
+    </LayoutNew>
+  );
+};
 
 export default AdminPage;
