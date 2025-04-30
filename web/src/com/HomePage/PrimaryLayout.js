@@ -37,7 +37,19 @@ const AdminPage = () => {
       key: 'image',
       render: (image) => <img src={image} alt="Card" style={{ width: '100px' }} />,
     },
-
+    {
+      title: 'Layout',
+      dataIndex: 'layout',
+      key: 'layout',
+    },
+    
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Button onClick={() => handleEdit(record)}>Edit</Button>
+      ),
+    },
   ];
 
   // Fetch existing cards from backend
