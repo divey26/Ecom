@@ -8,7 +8,25 @@ const Banner = () => {
   const [showBanner, setShowBanner] = useState(false);
   const navigate= useNavigate();
   
+  // Fetch deadline from the backend
+  useEffect(() => {
+    const fetchDeadline = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/deadline");
+        if (response.ok) {
+          const data = await response.json();
+          const parsedDeadline = new Date(data.deadline);
+          setDeadline(parsedDeadline);
 
+          // Show banner if current time is before the deadline
+          setShowBanner(new Date() < parsedDeadline);
+        }
+      } catch (error) {
+        console.error("Error fetching deadline:", error);
+      }
+    };
+
+    fetchDeadline();
 
     // Timer to update current time every second
     const timer = setInterval(() => {
