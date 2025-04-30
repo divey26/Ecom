@@ -77,6 +77,22 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
     }
   };
 
+  const handleSubmit = async (values) => {
+    const categoryId = generateCategoryId(); // Generate category ID
+    const imageURL = await handleUpload(file);
+    if (imageURL) {
+      // Fix: Map directly to subcategory names
+      const subcategoryObjects = values.subcategories.map((sub) => sub);
+      onFinish({
+        ...values,
+        imageURL,
+        categoryId,
+        subcategories: subcategoryObjects,
+      });
+    } else {
+      message.error('Image upload failed. Please try again.');
+    }
+  };
 
   return (
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
