@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Result, Modal } from 'antd';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  Elements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import { useCart } from '../cart/CartContext';
 import LayoutNew from '../../Layout';
 import imageSrc from '../../Images/logo.png';
 import StripImageSrc from '../../Images/StripeLogo.jpeg';
 import { useNavigate } from 'react-router-dom';
 
-
-const stripePromise = loadStripe('pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL');
+const stripePromise = loadStripe(
+  'pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL'
+);
 
 const CheckoutForm = () => {
   const { cart } = useCart();
@@ -20,10 +28,12 @@ const CheckoutForm = () => {
   const elements = useElements();
   const { reloadCart } = useCart();
   const navigate = useNavigate();
-  
 
   useEffect(() => {
-    const totalAmount = cart.reduce((total, item) => total + item.price * 100, 0);
+    const totalAmount = cart.reduce(
+      (total, item) => total + item.price * 100,
+      0
+    );
 
     fetch('http://localhost:5000/api/payment/create-payment-intent', {
       method: 'POST',
@@ -47,12 +57,15 @@ const CheckoutForm = () => {
 
     setPaymentStatus('Processing...');
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardNumber,
-        billing_details: { name: 'Customer Name' },
-      },
-    });
+    const { error, paymentIntent } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card: cardNumber,
+          billing_details: { name: 'Customer Name' },
+        },
+      }
+    );
 
     if (error) {
       setPaymentStatus(`Error: ${error.message}`);
@@ -79,11 +92,26 @@ const CheckoutForm = () => {
 
   const handleModalClose = () => {
     setIsModalVisible(false);
-    navigate('/home'); 
-
+    navigate('/home');
   };
 
-  
+  const cardStyle = {
+    style: {
+      base: {
+        color: '#32325d',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '18px',
+        fontSmoothing: 'antialiased',
+        '::placeholder': {
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
+  };
 
   return (
     <LayoutNew>
@@ -95,30 +123,61 @@ const CheckoutForm = () => {
               <img
                 src={imageSrc}
                 alt="Logo"
-                style={{ marginLeft: '15px', marginBottom: '3px', width: '100px', height: '100px' }}
+                style={{
+                  marginLeft: '15px',
+                  marginBottom: '3px',
+                  width: '100px',
+                  height: '100px',
+                }}
               />
               <span>
                 <img
                   src={StripImageSrc}
                   alt="Logo"
-                  style={{ marginLeft: '100px', width: '180px', height: '100px' }}
+                  style={{
+                    marginLeft: '100px',
+                    width: '180px',
+                    height: '100px',
+                  }}
                 />
               </span>
             </div>
 
             <div style={formGroupStyles}>
-              <label htmlFor="card-element" style={labelStyles}>Card Number</label>
-              <CardNumberElement id="card-element" options={cardStyle} style={cardElementStyles} />
+              <label htmlFor="card-element" style={labelStyles}>
+                Card Number
+              </label>
+              <CardNumberElement
+                id="card-element"
+                options={cardStyle}
+                style={cardElementStyles}
+              />
             </div>
             <div style={formGroupStyles}>
-              <label htmlFor="card-expiry" style={labelStyles}>Expiration Date</label>
-              <CardExpiryElement id="card-expiry" options={cardStyle} style={cardElementStyles} />
+              <label htmlFor="card-expiry" style={labelStyles}>
+                Expiration Date
+              </label>
+              <CardExpiryElement
+                id="card-expiry"
+                options={cardStyle}
+                style={cardElementStyles}
+              />
             </div>
             <div style={formGroupStyles}>
-              <label htmlFor="card-cvc" style={labelStyles}>CVC</label>
-              <CardCvcElement id="card-cvc" options={cardStyle} style={cardElementStyles} />
+              <label htmlFor="card-cvc" style={labelStyles}>
+                CVC
+              </label>
+              <CardCvcElement
+                id="card-cvc"
+                options={cardStyle}
+                style={cardElementStyles}
+              />
             </div>
-            <button type="submit" style={payButtonStyles} disabled={!stripe || !clientSecret}>
+            <button
+              type="submit"
+              style={payButtonStyles}
+              disabled={!stripe || !clientSecret}
+            >
               Pay Now
             </button>
           </div>
