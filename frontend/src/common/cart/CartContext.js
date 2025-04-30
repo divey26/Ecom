@@ -59,7 +59,24 @@ export const CartProvider = ({ children }) => {
     }
   };
 
- 
+  const updateQuantity = async (productId, quantity) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.put(
+        'http://localhost:5000/api/cart/update',
+        {
+          userId,
+          productId,
+          quantity,
+          discount: 1,
+        }
+      );
+      setCart(response.data.cart.items); // Update cart from the backend response
+      console.log(response.data.cart.items);
+    } catch (error) {
+      console.error('Failed to update item quantity:', error);
+    }
+  };
 
   const reloadCart = async () => {
     setLoading(true);
