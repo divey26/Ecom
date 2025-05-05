@@ -15,9 +15,13 @@ import imageSrc from '../../Images/logo.png';
 //import StripImageSrc from '../../Images/StripeLogo.jpeg';
 import { useNavigate } from 'react-router-dom';
 
+// Initialize Stripe with error handling
 const stripePromise = loadStripe(
   'pk_test_51QaAO003ldnatOZanoghUvQrw76T9rnCg0YxqQaPffhxmc2LCX5rA2iKSu1p74ApieFr76sZBeDg7dyH8rMBzIOu00XLfTyJPL'
-);
+).catch((error) => {
+  console.error('Error loading Stripe:', error);
+  return null;
+});
 
 const CheckoutForm = () => {
   const { cart } = useCart();
@@ -277,6 +281,26 @@ const CheckoutForm = () => {
 };
 
 const Checkout = () => {
+  const [stripeLoaded, setStripeLoaded] = useState(false);
+
+  useEffect(() => {
+    stripePromise.then(() => {
+      setStripeLoaded(true);
+    });
+  }, []);
+
+  if (!stripeLoaded) {
+    return (
+      <LayoutNew>
+        <Layout>
+          <div style={{ textAlign: 'center', padding: '50px' }}>
+            <h2>Loading payment system...</h2>
+          </div>
+        </Layout>
+      </LayoutNew>
+    );
+  }
+
   return (
     <Elements stripe={stripePromise}>
       <CheckoutForm />

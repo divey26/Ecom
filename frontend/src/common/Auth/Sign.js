@@ -253,25 +253,26 @@ const Sign = () => {
               </Form.Item>
 
               <Form.Item
-                name="phone"
-                label="Phone Number"
-                rules={[
-                  { required: true, message: 'Please input your phone number!' },
-                  { pattern: /^[0-9]{10}$/, message: 'Phone number must be exactly 10 digits!' }
-                ]}
-                labelAlign="left"
-              >
-                <Input 
-                  addonBefore={prefixSelector} 
-                  style={{ width: '100%' }} 
-                  maxLength={10}
-                  onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
-                      event.preventDefault();
-                    }
-                  }}
-                />
-              </Form.Item>
+  name="phone"
+  label="Phone Number"
+  rules={[
+    { required: true, message: 'Please input your phone number!' },
+    { pattern: /^[0-9]{9}$/, message: 'Phone number must be exactly 9 digits (excluding +94)' }
+  ]}
+  labelAlign="left"
+>
+  <Input
+    addonBefore="+94"
+    style={{ width: '100%' }}
+    maxLength={9}
+    onKeyPress={(event) => {
+      if (!/[0-9]/.test(event.key)) {
+        event.preventDefault();
+      }
+    }}
+  />
+</Form.Item>
+
 
               <Form.Item 
                 label="Captcha" 
