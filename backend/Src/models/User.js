@@ -17,7 +17,8 @@ const formSchema = new mongoose.Schema({
       quantity: { type: Number, required: true, default: 1 },
     },
   ],
-  
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 module.exports = mongoose.model('FormData', formSchema);
