@@ -29,12 +29,12 @@ const residences = [
 ];
 
 const formItemLayout = {
-  labelCol: { xs: { span: 24 }, sm: { span: 8 } },
-  wrapperCol: { xs: { span: 24 }, sm: { span: 16 } },
+  labelCol: { xs: { span: 24 }, sm: { span: 24 } },
+  wrapperCol: { xs: { span: 24 }, sm: { span: 24 } },
 };
 
 const tailFormItemLayout = {
-  wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } },
+  wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 24, offset: 0 } },
 };
 
 const Sign = () => {
@@ -107,6 +107,7 @@ const Sign = () => {
                   { type: 'email', message: 'The input is not a valid E-mail!' },
                   { required: true, message: 'Please input your E-mail!' },
                 ]}
+                labelAlign="left"
               >
                 <Input />
               </Form.Item>
@@ -119,6 +120,7 @@ const Sign = () => {
                   { min: 6, message: 'Password must be at least 6 characters!' },
                 ]}
                 hasFeedback
+                labelAlign="left"
               >
                 <Input.Password />
               </Form.Item>
@@ -139,6 +141,7 @@ const Sign = () => {
                     },
                   }),
                 ]}
+                labelAlign="left"
               >
                 <Input.Password />
               </Form.Item>
@@ -150,6 +153,7 @@ const Sign = () => {
                   { required: true, message: 'Please input your First Name!', whitespace: true },
                   { pattern: /^[A-Za-z]+$/, message: 'First Name should only contain letters!' },
                 ]}
+                labelAlign="left"
               >
                 <Input />
               </Form.Item>
@@ -161,6 +165,7 @@ const Sign = () => {
                   { required: true, message: 'Please input your Last Name!', whitespace: true },
                   { pattern: /^[A-Za-z]+$/, message: 'Last Name should only contain letters!' },
                 ]}
+                labelAlign="left"
               >
                 <Input />
               </Form.Item>
@@ -169,6 +174,7 @@ const Sign = () => {
                 name="residence"
                 label="Habitual Residence"
                 rules={[{ type: 'array', required: true, message: 'Please select your habitual residence!' }]}
+                labelAlign="left"
               >
                 <Cascader options={residences} />
               </Form.Item>
@@ -180,6 +186,7 @@ const Sign = () => {
                   { required: true, message: 'Please input your Address!' },
                   { min: 5, message: 'Address should be at least 5 characters long!' },
                 ]}
+                labelAlign="left"
               >
                 <Input />
               </Form.Item>
@@ -191,6 +198,7 @@ const Sign = () => {
                   { required: true, message: 'Please input your phone number!' },
                   { pattern: /^[0-9]{10}$/, message: 'Phone number must be exactly 10 digits!' }
                 ]}
+                labelAlign="left"
               >
                 <Input 
                   addonBefore={prefixSelector} 
@@ -204,7 +212,11 @@ const Sign = () => {
                 />
               </Form.Item>
 
-              <Form.Item label="Captcha" extra="We must make sure that you are a human.">
+              <Form.Item 
+                label="Captcha" 
+                extra="We must make sure that you are a human."
+                labelAlign="left"
+              >
                 <Row gutter={8}>
                   <Col span={12}>
                     <Form.Item
