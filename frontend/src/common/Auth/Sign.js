@@ -9,6 +9,15 @@ const { Option } = Select;
 
 const residences = [
   {
+    value: 'western',
+    label: 'Western',
+    children: [
+      { value: 'colombo', label: 'Colombo' },
+      { value: 'gampaha', label: 'Gampaha' },
+      { value: 'kalutara', label: 'Kalutara' },
+    ],
+  },
+  {
     value: 'central',
     label: 'Central',
     children: [
@@ -18,12 +27,64 @@ const residences = [
     ],
   },
   {
-    value: 'western',
-    label: 'Western',
+    value: 'southern',
+    label: 'Southern',
     children: [
-      { value: 'colombo', label: 'Colombo' },
-      { value: 'gampaha', label: 'Gampaha' },
-      { value: 'kalutara', label: 'Kalutara' },
+      { value: 'galle', label: 'Galle' },
+      { value: 'matara', label: 'Matara' },
+      { value: 'hambantota', label: 'Hambantota' },
+    ],
+  },
+  {
+    value: 'northern',
+    label: 'Northern',
+    children: [
+      { value: 'jaffna', label: 'Jaffna' },
+      { value: 'kilinochchi', label: 'Kilinochchi' },
+      { value: 'mannar', label: 'Mannar' },
+      { value: 'mullaitivu', label: 'Mullaitivu' },
+      { value: 'vavuniya', label: 'Vavuniya' },
+    ],
+  },
+  {
+    value: 'eastern',
+    label: 'Eastern',
+    children: [
+      { value: 'batticaloa', label: 'Batticaloa' },
+      { value: 'ampara', label: 'Ampara' },
+      { value: 'trincomalee', label: 'Trincomalee' },
+    ],
+  },
+  {
+    value: 'northWestern',
+    label: 'North Western',
+    children: [
+      { value: 'kurunegala', label: 'Kurunegala' },
+      { value: 'puttalam', label: 'Puttalam' },
+    ],
+  },
+  {
+    value: 'northCentral',
+    label: 'North Central',
+    children: [
+      { value: 'anuradhapura', label: 'Anuradhapura' },
+      { value: 'polonnaruwa', label: 'Polonnaruwa' },
+    ],
+  },
+  {
+    value: 'uva',
+    label: 'Uva',
+    children: [
+      { value: 'badulla', label: 'Badulla' },
+      { value: 'monaragala', label: 'Monaragala' },
+    ],
+  },
+  {
+    value: 'sabaragamuwa',
+    label: 'Sabaragamuwa',
+    children: [
+      { value: 'ratnapura', label: 'Ratnapura' },
+      { value: 'kegalle', label: 'Kegalle' },
     ],
   },
 ];
