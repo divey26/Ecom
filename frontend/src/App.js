@@ -19,6 +19,7 @@ import Summa from "./common/Home/summa";
 import Checkout from "./common/Payment/Checkout";
 import Feed from "./common/Feedback/feedback";
 import Profile from "./common/Auth/Profile";
+import ForgotPassword from './common/Auth/ForgotPassword';
 
 
 import Try from "./common/Try-on/Tryon";
@@ -45,6 +46,8 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/product/:productId" element={<SingleProduct />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             
               <Route path="/try" element={<Try />} />
 

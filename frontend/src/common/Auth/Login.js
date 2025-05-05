@@ -93,7 +93,12 @@ const Login = () => {
         </Form.Item>
 
         <div style={{ textAlign: "center", marginTop: "10px", fontSize: "16px", color: "white" }}>
-          Don't have an account? <a href="/sign" style={{ color: "#F3C623", fontWeight: "bold" }}>Sign up</a>
+          <div>
+            <a href="/forgot-password" style={{ color: "#F3C623", fontWeight: "bold" }}>Forgot Password?</a>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            Don't have an account? <a href="/sign" style={{ color: "#F3C623", fontWeight: "bold" }}>Sign up</a>
+          </div>
         </div>
       </Form>
     </div>
