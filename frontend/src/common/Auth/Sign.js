@@ -9,6 +9,15 @@ const { Option } = Select;
 
 const residences = [
   {
+    value: 'western',
+    label: 'Western',
+    children: [
+      { value: 'colombo', label: 'Colombo' },
+      { value: 'gampaha', label: 'Gampaha' },
+      { value: 'kalutara', label: 'Kalutara' },
+    ],
+  },
+  {
     value: 'central',
     label: 'Central',
     children: [
@@ -18,23 +27,75 @@ const residences = [
     ],
   },
   {
-    value: 'western',
-    label: 'Western',
+    value: 'southern',
+    label: 'Southern',
     children: [
-      { value: 'colombo', label: 'Colombo' },
-      { value: 'gampaha', label: 'Gampaha' },
-      { value: 'kalutara', label: 'Kalutara' },
+      { value: 'galle', label: 'Galle' },
+      { value: 'matara', label: 'Matara' },
+      { value: 'hambantota', label: 'Hambantota' },
+    ],
+  },
+  {
+    value: 'northern',
+    label: 'Northern',
+    children: [
+      { value: 'jaffna', label: 'Jaffna' },
+      { value: 'kilinochchi', label: 'Kilinochchi' },
+      { value: 'mannar', label: 'Mannar' },
+      { value: 'mullaitivu', label: 'Mullaitivu' },
+      { value: 'vavuniya', label: 'Vavuniya' },
+    ],
+  },
+  {
+    value: 'eastern',
+    label: 'Eastern',
+    children: [
+      { value: 'batticaloa', label: 'Batticaloa' },
+      { value: 'ampara', label: 'Ampara' },
+      { value: 'trincomalee', label: 'Trincomalee' },
+    ],
+  },
+  {
+    value: 'northWestern',
+    label: 'North Western',
+    children: [
+      { value: 'kurunegala', label: 'Kurunegala' },
+      { value: 'puttalam', label: 'Puttalam' },
+    ],
+  },
+  {
+    value: 'northCentral',
+    label: 'North Central',
+    children: [
+      { value: 'anuradhapura', label: 'Anuradhapura' },
+      { value: 'polonnaruwa', label: 'Polonnaruwa' },
+    ],
+  },
+  {
+    value: 'uva',
+    label: 'Uva',
+    children: [
+      { value: 'badulla', label: 'Badulla' },
+      { value: 'monaragala', label: 'Monaragala' },
+    ],
+  },
+  {
+    value: 'sabaragamuwa',
+    label: 'Sabaragamuwa',
+    children: [
+      { value: 'ratnapura', label: 'Ratnapura' },
+      { value: 'kegalle', label: 'Kegalle' },
     ],
   },
 ];
 
 const formItemLayout = {
-  labelCol: { xs: { span: 24 }, sm: { span: 8 } },
-  wrapperCol: { xs: { span: 24 }, sm: { span: 16 } },
+  labelCol: { xs: { span: 24 }, sm: { span: 24 } },
+  wrapperCol: { xs: { span: 24 }, sm: { span: 24 } },
 };
 
 const tailFormItemLayout = {
-  wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } },
+  wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 24, offset: 0 } },
 };
 
 const Sign = () => {
@@ -69,106 +130,141 @@ const Sign = () => {
   };
 
   return (
-    <div className="about">
+    <div className="about" style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      background: '#f0f2f5'
+    }}>
       <LayoutNew>
         <Layout>
-          <Form {...formItemLayout} form={form} name="register" onFinish={onFinish} style={{ maxWidth: 600 }} scrollToFirstError>
-            <Form.Item
-              name="email"
-              label="E-mail"
-              rules={[
-                { type: 'email', message: 'The input is not a valid E-mail!' },
-                { required: true, message: 'Please input your E-mail!' },
-              ]}
+          <div style={{
+            background: 'white',
+            padding: '40px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            width: '100%',
+            maxWidth: '600px',
+            margin: '0 auto'
+          }}>
+            <h2 style={{ 
+              textAlign: 'center', 
+              marginBottom: '30px',
+              color: '#1890ff'
+            }}>Create Account</h2>
+            <Form 
+              {...formItemLayout} 
+              form={form} 
+              name="register" 
+              onFinish={onFinish} 
+              style={{ maxWidth: 600 }} 
+              scrollToFirstError
             >
-              <Input />
-            </Form.Item>
+              <Form.Item
+                name="email"
+                label="E-mail"
+                rules={[
+                  { type: 'email', message: 'The input is not a valid E-mail!' },
+                  { required: true, message: 'Please input your E-mail!' },
+                ]}
+                labelAlign="left"
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[
-                { required: true, message: 'Please input your password!' },
-                { min: 6, message: 'Password must be at least 6 characters!' },
-              ]}
-              hasFeedback
-            >
-              <Input.Password />
-            </Form.Item>
+              <Form.Item
+                name="password"
+                label="Password"
+                rules={[
+                  { required: true, message: 'Please input your password!' },
+                  { min: 6, message: 'Password must be at least 6 characters!' },
+                ]}
+                hasFeedback
+                labelAlign="left"
+              >
+                <Input.Password />
+              </Form.Item>
 
-            <Form.Item
-              name="confirm"
-              label="Confirm Password"
-              dependencies={['password']}
-              hasFeedback
-              rules={[
-                { required: true, message: 'Please confirm your password!' },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Passwords do not match!'));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+              <Form.Item
+                name="confirm"
+                label="Confirm Password"
+                dependencies={['password']}
+                hasFeedback
+                rules={[
+                  { required: true, message: 'Please confirm your password!' },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error('Passwords do not match!'));
+                    },
+                  }),
+                ]}
+                labelAlign="left"
+              >
+                <Input.Password />
+              </Form.Item>
 
-            <Form.Item
-              name="firstname"
-              label="First Name"
-              rules={[
-                { required: true, message: 'Please input your First Name!', whitespace: true },
-                { pattern: /^[A-Za-z]+$/, message: 'First Name should only contain letters!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              <Form.Item
+                name="firstname"
+                label="First Name"
+                rules={[
+                  { required: true, message: 'Please input your First Name!', whitespace: true },
+                  { pattern: /^[A-Za-z]+$/, message: 'First Name should only contain letters!' },
+                ]}
+                labelAlign="left"
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item
-              name="lastname"
-              label="Last Name"
-              rules={[
-                { required: true, message: 'Please input your Last Name!', whitespace: true },
-                { pattern: /^[A-Za-z]+$/, message: 'Last Name should only contain letters!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              <Form.Item
+                name="lastname"
+                label="Last Name"
+                rules={[
+                  { required: true, message: 'Please input your Last Name!', whitespace: true },
+                  { pattern: /^[A-Za-z]+$/, message: 'Last Name should only contain letters!' },
+                ]}
+                labelAlign="left"
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item
-              name="residence"
-              label="Habitual Residence"
-              rules={[{ type: 'array', required: true, message: 'Please select your habitual residence!' }]}
-            >
-              <Cascader options={residences} />
-            </Form.Item>
+              <Form.Item
+                name="residence"
+                label="Habitual Residence"
+                rules={[{ type: 'array', required: true, message: 'Please select your habitual residence!' }]}
+                labelAlign="left"
+              >
+                <Cascader options={residences} />
+              </Form.Item>
 
-            <Form.Item
-              name="address"
-              label="Address"
-              rules={[
-                { required: true, message: 'Please input your Address!' },
-                { min: 5, message: 'Address should be at least 5 characters long!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              <Form.Item
+                name="address"
+                label="Address"
+                rules={[
+                  { required: true, message: 'Please input your Address!' },
+                  { min: 5, message: 'Address should be at least 5 characters long!' },
+                ]}
+                labelAlign="left"
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item
+              <Form.Item
   name="phone"
   label="Phone Number"
   rules={[
     { required: true, message: 'Please input your phone number!' },
-    { pattern: /^[0-9]{10}$/, message: 'Phone number must be exactly 10 digits!' }
+    { pattern: /^[0-9]{9}$/, message: 'Phone number must be exactly 9 digits (excluding +94)' }
   ]}
+  labelAlign="left"
 >
-  <Input 
-    addonBefore={prefixSelector} 
-    style={{ width: '100%' }} 
-    maxLength={10}
+  <Input
+    addonBefore="+94"
+    style={{ width: '100%' }}
+    maxLength={9}
     onKeyPress={(event) => {
       if (!/[0-9]/.test(event.key)) {
         event.preventDefault();
@@ -178,46 +274,59 @@ const Sign = () => {
 </Form.Item>
 
 
-            <Form.Item label="Captcha" extra="We must make sure that you are a human.">
-              <Row gutter={8}>
-                <Col span={12}>
-                  <Form.Item
-                    name="captcha"
-                    noStyle
-                    rules={[{ required: true, message: 'Please input the captcha you got!' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Button onClick={handleCaptchaClick}>Get captcha</Button>
-                  <div>{captchaValue}</div>
-                </Col>
-              </Row>
-            </Form.Item>
+              <Form.Item 
+                label="Captcha" 
+                extra="We must make sure that you are a human."
+                labelAlign="left"
+              >
+                <Row gutter={8}>
+                  <Col span={12}>
+                    <Form.Item
+                      name="captcha"
+                      noStyle
+                      rules={[{ required: true, message: 'Please input the captcha you got!' }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Button onClick={handleCaptchaClick}>Get captcha</Button>
+                    <div>{captchaValue}</div>
+                  </Col>
+                </Row>
+              </Form.Item>
 
-            <Form.Item
-              name="agreement"
-              valuePropName="checked"
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('You must accept the agreement')),
-                },
-              ]}
-              {...tailFormItemLayout}
-            >
-              <Checkbox>
-                I have read the <a href="">agreement</a>
-              </Checkbox>
-            </Form.Item>
+              <Form.Item
+                name="agreement"
+                valuePropName="checked"
+                rules={[
+                  {
+                    validator: (_, value) =>
+                      value ? Promise.resolve() : Promise.reject(new Error('You must accept the agreement')),
+                  },
+                ]}
+                {...tailFormItemLayout}
+              >
+                <Checkbox>
+                  I have read the <a href="">agreement</a>
+                </Checkbox>
+              </Form.Item>
 
-            <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">
-                Register
-              </Button>
-            </Form.Item>
-          </Form>
+              <Form.Item {...tailFormItemLayout}>
+                <Button 
+                  type="primary" 
+                  htmlType="submit"
+                  style={{ 
+                    width: '100%',
+                    height: '40px',
+                    fontSize: '16px'
+                  }}
+                >
+                  Register
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
         </Layout>
       </LayoutNew>
     </div>

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Alert, Button } from 'antd';
+import { Table, Alert, Button, Input } from 'antd';
 import { jsPDF } from 'jspdf';
 import Layout from '../../Layout'
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/user/users');
-        setUsers(response.data); // Store fetched users in the state
+        setUsers(response.data);
+        setFilteredUsers(response.data);
       } catch (err) {
         setError('Failed to load users');
       }
@@ -20,6 +23,21 @@ const UsersList = () => {
 
     fetchUsers();
   }, []);
+
+  // Handle search functionality
+  const handleSearch = (value) => {
+    setSearchText(value);
+    if (value === '') {
+      setFilteredUsers(users);
+    } else {
+      const filtered = users.filter(user => 
+        user.email.toLowerCase().includes(value.toLowerCase()) ||
+        user.firstname.toLowerCase().includes(value.toLowerCase()) ||
+        user.lastname.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    }
+  };
 
   // Ant Design Table columns configuration
   const columns = [
@@ -61,16 +79,23 @@ const UsersList = () => {
       {error && (
         <Alert message={error} type="error" style={{ marginBottom: '20px' }} />
       )}
-      <Button 
-        type="primary" 
-        onClick={exportToPDF} 
-        style={{ marginBottom: '20px' }}
-      >
-        Export to PDF
-      </Button>
+      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Input.Search
+          placeholder="Search by email, first name, or last name"
+          allowClear
+          onChange={(e) => handleSearch(e.target.value)}
+          style={{ width: 300 }}
+        />
+        <Button 
+          type="primary" 
+          onClick={exportToPDF}
+        >
+          Export to PDF
+        </Button>
+      </div>
       <Table
         columns={columns}
-        dataSource={users}
+        dataSource={filteredUsers}
         rowKey="_id"
         pagination={{ pageSize: 10 }}
         bordered
