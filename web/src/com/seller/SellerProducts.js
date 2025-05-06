@@ -249,7 +249,7 @@ const calculateDynamicDiscount = (values) => {
               <Row gutter={[16, 16]}>
                 <Col span={24}>
                   <Form.Item
-                    name="itemName"
+                    name="itemName" //hi
                     label="Item Name"
                     rules={[{ required: true, message: 'Please input the item name!' }]}
                   >
