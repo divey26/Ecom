@@ -154,7 +154,6 @@ const SellerProductsList = () => {
     },
 
     {
-      title: 'Actions',
       key: 'actions',
       render: (text, record) => (
         <Space>
