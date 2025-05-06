@@ -345,12 +345,7 @@ const calculateDynamicDiscount = (values) => {
                       label="Discount"
                       rules={[{ required: discountType !== 'hide', message: 'Please input a discount value!' }]}
                     >
-                      <Input
-                        type="number"
-                        value={discountValue}
-                        onChange={(e) => setDiscountValue(e.target.value)}
-                        placeholder="Enter discount value"
-                      />
+                      
                     </Form.Item>
                   </Col>
                 </Row>
