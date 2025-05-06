@@ -5,6 +5,7 @@ import {
   UserSwitchOutlined,
   CalendarOutlined,
   AppstoreAddOutlined,
+  ProductOutlined,
   CheckCircleOutlined,
   ApartmentOutlined,
   StockOutlined,
@@ -14,10 +15,10 @@ import { Layout, Menu, theme, Button } from "antd";
 import { FloatButton } from "antd";
 import { useNavigate } from "react-router-dom";
 import imageSrc from "./logo.png";
-
+ 
 const { Header, Content, Footer, Sider } = Layout;
 const loggedInUserType = localStorage.getItem("usertype");
-
+ 
 const adminUserItems = [
   {
     key: "dashboard",
@@ -50,7 +51,7 @@ const adminUserItems = [
     label: "Home Layouts",
   },
 ];
-
+ 
 const sellerItems = [
   {
     key: "dashboard",
@@ -69,7 +70,7 @@ const sellerItems = [
   },
   {
     key: "selleraddpro",
-    icon: <HomeOutlined />,
+    icon: <StockOutlined />,
     label: "Products",
   },
   {
@@ -84,7 +85,7 @@ const sellerItems = [
   },
   {
     key: "category",
-    icon: <HomeOutlined />,
+    icon: <ProductOutlined />,
     label: "Category",
   },
   {
@@ -93,16 +94,16 @@ const sellerItems = [
     label: "All Customers",
   },
 ];
-
+ 
 const headerIteam = [
   { key: "1", text: "profile", icon: <UserSwitchOutlined /> },
   { key: "2", text: "Login", icon: <LogoutOutlined /> },
 ];
-
+ 
 const App = ({ children, userType }) => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
-
+ 
   const handleHeaderClick = (key) => {
     if (key === "1") {
       navigate("/seller");
@@ -112,23 +113,23 @@ const App = ({ children, userType }) => {
       navigate("/login");
     }
   };
-
+ 
   const [isBackTopVisible, setIsBackTopVisible] = useState(false);
-
+ 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
       setIsBackTopVisible(scrollTop > 0);
     };
-
+ 
     window.addEventListener("scroll", handleScroll);
-
+ 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+ 
   const handleMenuClick = (item) => {
     if (item.key === "dashboard") {
       navigate("/");
@@ -160,13 +161,13 @@ const App = ({ children, userType }) => {
     if (item.key === "allcus") {
       navigate("/allcus");
     }
-    
+   
   };
-
+ 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
+ 
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -191,7 +192,7 @@ const App = ({ children, userType }) => {
           style={{ backgroundColor: "#ffc221" }}
         />
       </Sider>
-
+ 
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Header
           style={{
@@ -228,7 +229,7 @@ const App = ({ children, userType }) => {
             ))}
           </div>
         </Header>
-
+ 
         <Content style={{ marginTop: 64, padding: 24 }}>
           <div
             style={{
@@ -247,11 +248,12 @@ const App = ({ children, userType }) => {
             {children}
           </div>
         </Content>
-
+ 
         <Footer style={{ textAlign: "center" }}></Footer>
       </Layout>
     </Layout>
   );
 };
-
+ 
 export default App;
+ 
