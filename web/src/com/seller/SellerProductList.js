@@ -4,7 +4,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-
+const { Title } = Typography;
 
 const SellerProductsList = () => {
   const [products, setProducts] = useState([]);
