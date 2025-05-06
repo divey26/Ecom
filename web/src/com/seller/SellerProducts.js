@@ -213,7 +213,12 @@ const calculateDynamicDiscount = (values) => {
               display: "flex",
             }}
           >
-            
+            <Space>
+              <StockOutlined style={{ fontSize: "24px", marginRight: "8px" }} />
+              <Title level={2} style={{ fontSize: "24px", marginTop: "8px", color: "#004f9a" }}>
+                Products
+              </Title>
+            </Space>
             <Button type="primary" onClick={() => showModal()} style={{ backgroundColor: "#ffc221", color: "black", fontSize: "16px" }}>
               Add products
             </Button>
