@@ -58,7 +58,7 @@ const HomePage = () => {
       navigate("/profile");
     }
     else if (key === "4") {
-      navigate("/try");
+    window.open("http://localhost:5001/", "_blank"); // Open in a new tab
     }
     else if (key === '5') {// Clear localStorage and update context state
       navigate("/");
