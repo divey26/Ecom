@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { Layout } from 'antd';
+import {
+  Layout,
+  Card,
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Cascader,
+  Row,
+  Col,
+  Select,
+  message,
+} from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LayoutNew from '../../Layout';
-import { Button, Checkbox, Form, Input, Cascader, Row, Col, Select, message } from 'antd';
+import imageSrc from "../../Images/logo.png";
 
 const { Option } = Select;
 
 const residences = [
-  {
-    value: 'western',
-    label: 'Western',
-    children: [
-      { value: 'colombo', label: 'Colombo' },
-      { value: 'gampaha', label: 'Gampaha' },
-      { value: 'kalutara', label: 'Kalutara' },
-    ],
-  },
   {
     value: 'central',
     label: 'Central',
@@ -27,75 +30,23 @@ const residences = [
     ],
   },
   {
-    value: 'southern',
-    label: 'Southern',
+    value: 'western',
+    label: 'Western',
     children: [
-      { value: 'galle', label: 'Galle' },
-      { value: 'matara', label: 'Matara' },
-      { value: 'hambantota', label: 'Hambantota' },
-    ],
-  },
-  {
-    value: 'northern',
-    label: 'Northern',
-    children: [
-      { value: 'jaffna', label: 'Jaffna' },
-      { value: 'kilinochchi', label: 'Kilinochchi' },
-      { value: 'mannar', label: 'Mannar' },
-      { value: 'mullaitivu', label: 'Mullaitivu' },
-      { value: 'vavuniya', label: 'Vavuniya' },
-    ],
-  },
-  {
-    value: 'eastern',
-    label: 'Eastern',
-    children: [
-      { value: 'batticaloa', label: 'Batticaloa' },
-      { value: 'ampara', label: 'Ampara' },
-      { value: 'trincomalee', label: 'Trincomalee' },
-    ],
-  },
-  {
-    value: 'northWestern',
-    label: 'North Western',
-    children: [
-      { value: 'kurunegala', label: 'Kurunegala' },
-      { value: 'puttalam', label: 'Puttalam' },
-    ],
-  },
-  {
-    value: 'northCentral',
-    label: 'North Central',
-    children: [
-      { value: 'anuradhapura', label: 'Anuradhapura' },
-      { value: 'polonnaruwa', label: 'Polonnaruwa' },
-    ],
-  },
-  {
-    value: 'uva',
-    label: 'Uva',
-    children: [
-      { value: 'badulla', label: 'Badulla' },
-      { value: 'monaragala', label: 'Monaragala' },
-    ],
-  },
-  {
-    value: 'sabaragamuwa',
-    label: 'Sabaragamuwa',
-    children: [
-      { value: 'ratnapura', label: 'Ratnapura' },
-      { value: 'kegalle', label: 'Kegalle' },
+      { value: 'colombo', label: 'Colombo' },
+      { value: 'gampaha', label: 'Gampaha' },
+      { value: 'kalutara', label: 'Kalutara' },
     ],
   },
 ];
 
 const formItemLayout = {
-  labelCol: { xs: { span: 24 }, sm: { span: 24 } },
-  wrapperCol: { xs: { span: 24 }, sm: { span: 24 } },
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
 };
 
 const tailFormItemLayout = {
-  wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 24, offset: 0 } },
+  wrapperCol: { span: 24 },
 };
 
 const Sign = () => {
@@ -107,12 +58,9 @@ const Sign = () => {
     const { confirm, ...formData } = values;
 
     try {
-      console.log('Entered details:', formData);
       const response = await axios.post('http://localhost:5000/api/user/register', formData);
-      console.log('Form data saved:', response.data);
       navigate('/');
     } catch (error) {
-      console.error('Error saving form data:', error.response ? error.response.data : error.message);
       message.error('Registration failed. Please try again.');
     }
   };
@@ -130,202 +78,210 @@ const Sign = () => {
   };
 
   return (
-    <div className="about" style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center',
-      background: '#f0f2f5'
-    }}>
+    <div className="about">
       <LayoutNew>
-        <Layout>
-          <div style={{
-            background: 'white',
-            padding: '40px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-            width: '100%',
-            maxWidth: '600px',
-            margin: '0 auto'
-          }}>
-            <h2 style={{ 
-              textAlign: 'center', 
-              marginBottom: '30px',
-              color: '#1890ff'
-            }}>Create Account</h2>
-            <Form 
-              {...formItemLayout} 
-              form={form} 
-              name="register" 
-              onFinish={onFinish} 
-              style={{ maxWidth: 600 }} 
-              scrollToFirstError
-            >
-              <Form.Item
-                name="email"
-                label="E-mail"
-                rules={[
-                  { type: 'email', message: 'The input is not a valid E-mail!' },
-                  { required: true, message: 'Please input your E-mail!' },
-                ]}
-                labelAlign="left"
-              >
-                <Input />
-              </Form.Item>
+        <Layout
+          style={{
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ width: '100%', maxWidth: 800 }}>
+<Card
+  title={
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
-              <Form.Item
-                name="password"
-                label="Password"
-                rules={[
-                  { required: true, message: 'Please input your password!' },
-                  { min: 6, message: 'Password must be at least 6 characters!' },
-                ]}
-                hasFeedback
-                labelAlign="left"
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="confirm"
-                label="Confirm Password"
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                  { required: true, message: 'Please confirm your password!' },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(new Error('Passwords do not match!'));
-                    },
-                  }),
-                ]}
-                labelAlign="left"
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="firstname"
-                label="First Name"
-                rules={[
-                  { required: true, message: 'Please input your First Name!', whitespace: true },
-                  { pattern: /^[A-Za-z]+$/, message: 'First Name should only contain letters!' },
-                ]}
-                labelAlign="left"
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                name="lastname"
-                label="Last Name"
-                rules={[
-                  { required: true, message: 'Please input your Last Name!', whitespace: true },
-                  { pattern: /^[A-Za-z]+$/, message: 'Last Name should only contain letters!' },
-                ]}
-                labelAlign="left"
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                name="residence"
-                label="Habitual Residence"
-                rules={[{ type: 'array', required: true, message: 'Please select your habitual residence!' }]}
-                labelAlign="left"
-              >
-                <Cascader options={residences} />
-              </Form.Item>
-
-              <Form.Item
-                name="address"
-                label="Address"
-                rules={[
-                  { required: true, message: 'Please input your Address!' },
-                  { min: 5, message: 'Address should be at least 5 characters long!' },
-                ]}
-                labelAlign="left"
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-  name="phone"
-  label="Phone Number"
-  rules={[
-    { required: true, message: 'Please input your phone number!' },
-    { pattern: /^[0-9]{9}$/, message: 'Phone number must be exactly 9 digits (excluding +94)' }
-  ]}
-  labelAlign="left"
+      <span style={{ marginLeft:"340px",fontSize: '24px', fontWeight: '600' }}>Register</span>
+    </div>
+  }
+  bordered={false}
 >
-  <Input
-    addonBefore="+94"
-    style={{ width: '100%' }}
-    maxLength={9}
-    onKeyPress={(event) => {
-      if (!/[0-9]/.test(event.key)) {
-        event.preventDefault();
-      }
-    }}
-  />
-</Form.Item>
 
-
-              <Form.Item 
-                label="Captcha" 
-                extra="We must make sure that you are a human."
-                labelAlign="left"
+              <Form
+                {...formItemLayout}
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                scrollToFirstError
               >
-                <Row gutter={8}>
+                <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item
-                      name="captcha"
-                      noStyle
-                      rules={[{ required: true, message: 'Please input the captcha you got!' }]}
+                      name="email"
+                      label="E-mail"
+                      style={{ marginBottom: '12px' }}
+                      rules={[
+                        { type: 'email', message: 'Invalid E-mail!' },
+                        { required: true, message: 'Please input your E-mail!' },
+                      ]}
                     >
                       <Input />
                     </Form.Item>
                   </Col>
+
                   <Col span={12}>
-                    <Button onClick={handleCaptchaClick}>Get captcha</Button>
-                    <div>{captchaValue}</div>
+                    <Form.Item
+                      name="password"
+                      label="Password"
+                      style={{ marginBottom: '12px' }}
+                      rules={[
+                        { required: true, message: 'Please input your password!' },
+                        { min: 6, message: 'Password must be at least 6 characters!' },
+                      ]}
+                      hasFeedback
+                    >
+                      <Input.Password />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      name="confirm"
+                      label="Confirm Password"
+                      style={{ marginBottom: '12px' }}
+                      dependencies={['password']}
+                      hasFeedback
+                      rules={[
+                        { required: true, message: 'Please confirm your password!' },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('Passwords do not match!'));
+                          },
+                        }),
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      name="firstname"
+                      label="First Name"
+                      style={{ marginBottom: '12px' }}
+                      rules={[
+                        { required: true, message: 'Please input your First Name!' },
+                        { pattern: /^[A-Za-z]+$/, message: 'Only letters allowed!' },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      name="lastname"
+                      label="Last Name"
+                      style={{ marginBottom: '12px' }}
+                      rules={[
+                        { required: true, message: 'Please input your Last Name!' },
+                        { pattern: /^[A-Za-z]+$/, message: 'Only letters allowed!' },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      name="residence"
+                      label="Habitual Residence"
+                      style={{ marginBottom: '12px' }}
+                      rules={[{ type: 'array', required: true, message: 'Select your residence!' }]}
+                    >
+                      <Cascader options={residences} />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      name="address"
+                      label="Address"
+                      style={{ marginBottom: '12px' }}
+                      rules={[
+                        { required: true, message: 'Please input your Address!' },
+                        { min: 5, message: 'At least 5 characters' },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      name="phone"
+                      label="Phone Number"
+                      style={{ marginBottom: '12px' }}
+                      rules={[
+                        { required: true, message: 'Please input your phone number!' },
+                        { pattern: /^[0-9]{10}$/, message: 'Exactly 10 digits required!' },
+                      ]}
+                    >
+                      <Input
+                        addonBefore={prefixSelector}
+                        style={{ width: '100%' }}
+                        maxLength={10}
+                        onKeyPress={(event) => {
+                          if (!/[0-9]/.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                      />
+                    </Form.Item>
                   </Col>
                 </Row>
-              </Form.Item>
 
-              <Form.Item
-                name="agreement"
-                valuePropName="checked"
-                rules={[
-                  {
-                    validator: (_, value) =>
-                      value ? Promise.resolve() : Promise.reject(new Error('You must accept the agreement')),
-                  },
-                ]}
-                {...tailFormItemLayout}
-              >
-                <Checkbox>
-                  I have read the <a href="">agreement</a>
-                </Checkbox>
-              </Form.Item>
-
-              <Form.Item {...tailFormItemLayout}>
-                <Button 
-                  type="primary" 
-                  htmlType="submit"
-                  style={{ 
-                    width: '100%',
-                    height: '40px',
-                    fontSize: '16px'
-                  }}
+                <Form.Item
+                  label="Captcha"
+                  style={{ marginBottom: '12px' }}
+                  extra="We must make sure that you are a human."
                 >
-                  Register
-                </Button>
-              </Form.Item>
-            </Form>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <Form.Item
+                        name="captcha"
+                        noStyle
+                        rules={[{ required: true, message: 'Please input the captcha!' }]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Button onClick={handleCaptchaClick}>Get captcha</Button>
+                      <div style={{ marginTop: 8, fontWeight: 'bold' }}>{captchaValue}</div>
+                    </Col>
+                  </Row>
+                </Form.Item>
+
+                <Form.Item
+                  name="agreement"
+                  valuePropName="checked"
+                  style={{ marginBottom: '12px' }}
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        value ? Promise.resolve() : Promise.reject(new Error('You must accept the agreement')),
+                    },
+                  ]}
+                  {...tailFormItemLayout}
+                >
+                  <Checkbox>
+                    I have read the <a href="">agreement</a>
+                  </Checkbox>
+                </Form.Item>
+
+                <Form.Item {...tailFormItemLayout}>
+                  <Button type="primary" htmlType="submit">
+                    Register
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
           </div>
         </Layout>
       </LayoutNew>

@@ -50,7 +50,7 @@ const Login = () => {
         scrollToFirstError
       >
         <div style={{ textAlign: "center", padding: "20px 0" }}>
-          <img src={imageSrc} alt="Logo" style={{ width: "45%" }} />
+          <img src={imageSrc} alt="Logo" style={{ width: "40%" }} />
         </div>
 
         <div
@@ -111,7 +111,8 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: 'rgb(76, 149, 163)',
+    backgroundColor:'  rgba(227, 13, 13, 0.96))',
+
   },
   form: {
     maxWidth: '500px',

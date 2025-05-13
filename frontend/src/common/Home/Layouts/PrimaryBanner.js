@@ -14,7 +14,6 @@ const CardContainer = styled.div`
   color: #004f9a;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  
 `;
 
 const CardImage = styled.img`
@@ -26,6 +25,7 @@ const CardImage = styled.img`
   left: 0;
   z-index: 1;
 `;
+
 const TextContainer = styled.div`
   position: relative;
   z-index: 3;
@@ -34,18 +34,16 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  
 
   h1 {
     color: #004f9a;
-    margin-bottom: 5px; /* Reduce gap between title and description */
+    margin-bottom: 5px;
   }
 
   h2 {
     color: #004f9a;
-    margin: 0; /* Remove default margin */
-    font-size: 54px; /* Increase font size for title */
-
+    margin: 0;
+    font-size: 54px;
   }
 
   p {
@@ -53,30 +51,24 @@ const TextContainer = styled.div`
   }
 `;
 
-// Add more layouts (L4, etc.) as needed...
-
 const Page1 = () => {
   const [cards, setCards] = useState([]);
-  const navigate=useNavigate();
-  
+  const navigate = useNavigate();
+
   const handleCardClick = () => {
     navigate('/all-pro');
   };
 
-
   const L1Card = ({ card }) => (
-
-
     <CardContainer height="300px" onClick={handleCardClick}>
       <CardImage src={card.image} alt={card.title} />
-      <TextContainer >
+      <TextContainer>
         <h1>{card.title}</h1>
-        
-        <div style={{ marginTop:'12px', fontSize:'19px'}}>{card.description}</div>
+        <div style={{ marginTop: '12px', fontSize: '19px' }}>{card.description}</div>
       </TextContainer>
     </CardContainer>
   );
-  
+
   const fetchCards = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/pricard');
@@ -90,30 +82,29 @@ const Page1 = () => {
     fetchCards();
   }, []);
 
-  // Ensure at least 10 cards and add labels
-  const repeatedCards = [...cards, ...cards.slice(0, 10 - cards.length)].map((card, index) => ({
+  // Remove duplicates based on _id (or another unique key)
+  const uniqueCards = [...new Map(cards.map(card => [card._id, card])).values()];
+
+  // Pad to 10 cards if needed
+  const paddedCards = uniqueCards.length < 10
+    ? [...uniqueCards, ...Array(10 - uniqueCards.length).fill(null).map((_, i) => uniqueCards[i % uniqueCards.length])]
+    : uniqueCards;
+
+  // Add labels
+  const labeledCards = paddedCards.map((card, index) => ({
     ...card,
-    label: `L${index + 1}`, // Assign unique labels
+    label: `L${index + 1}`,
   }));
 
-  // Sort cards by layout order
-  const sortedCards = repeatedCards.sort((a, b) => {
-    const layoutOrder = ['L1', 'L2', 'L3']; // Define your desired layout order
+  // Sort by layout priority
+  const sortedCards = labeledCards.sort((a, b) => {
+    const layoutOrder = ['L1', 'L2', 'L3'];
     return layoutOrder.indexOf(a.layout) - layoutOrder.indexOf(b.layout);
   });
 
   const renderCard = (card) => {
-    switch (card.layout) {
-      case 'L1':
-        return <L1Card card={card} />;
-      case 'L2':
-        return <L1Card card={card} />;
-      case 'L3':
-        return <L1Card card={card} />;
-      // Add more cases for L4, etc.
-      default:
-        return <L1Card card={card} />; // Fallback to L1 layout
-    }
+    if (!card) return null; // guard against nulls in padded cards
+    return <L1Card card={card} />;
   };
 
   return (
